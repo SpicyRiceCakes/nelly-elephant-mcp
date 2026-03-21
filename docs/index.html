@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nelly The Elephant — MCP Session Memory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-card-hover: #1c2333;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #e85d3a;
+      --accent-glow: rgba(232, 93, 58, 0.3);
+      --green: #3fb950;
+      --blue: #58a6ff;
+      --purple: #bc8cff;
+      --reddit-orange: #ff4500;
+      --reddit-blue: #0079d3;
+      --reddit-bg: #1a1a1b;
+      --reddit-card: #272729;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ─── Tab Bar ─── */
+    .tab-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 17, 23, 0.97);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      backdrop-filter: blur(12px);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+      position: relative;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .tab:first-child { border-right: 1px solid var(--border); }
+
+    .tab .tab-icon-area {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tab .tab-icon-area svg { width: 32px; height: 32px; }
+
+    .tab .tab-text { text-align: left; }
+
+    .tab .tab-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: color 0.3s;
+    }
+
+    .tab .tab-hint {
+      font-size: 12px;
+      color: var(--text-dim);
+      opacity: 0.5;
+      margin-top: 3px;
+      transition: opacity 0.3s;
+    }
+
+    .tab:hover .tab-title { color: var(--text); }
+    .tab:hover .tab-hint { opacity: 0.7; }
+
+    .tab.active {
+      border-bottom-color: var(--accent);
+      background: rgba(232, 93, 58, 0.05);
+    }
+
+    .tab.active .tab-title { color: var(--text); }
+    .tab.active .tab-hint { opacity: 0.8; color: var(--accent); }
+
+    /* Hooman arrow — sits between mascot and text */
+    .tab .arrow {
+      font-size: 24px;
+      color: #fff;
+      flex-shrink: 0;
+      animation: nudge 1.2s ease-in-out infinite;
+    }
+
+    @keyframes nudge {
+      0%, 100% { transform: translateX(0); opacity: 0.6; }
+      50% { transform: translateX(5px); opacity: 1; }
+    }
+
+    /* "HERE" glows */
+    .glow-here {
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent-glow), 0 0 20px var(--accent-glow);
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { text-shadow: 0 0 8px var(--accent-glow), 0 0 20px var(--accent-glow); }
+      50% { text-shadow: 0 0 12px var(--accent), 0 0 30px var(--accent-glow), 0 0 50px var(--accent-glow); }
+    }
+
+    /* SpicyRiceCakes mascot in tab — 90px via object tag */
+    .mascot-tab-container {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      flex-shrink: 0;
+    }
+
+    .mascot-tab-container object {
+      width: 90px;
+      height: 90px;
+      pointer-events: none;
+    }
+
+    /* ─── Geek Mode ─── */
+    .geek-mode { display: none; padding: 40px 24px; max-width: 800px; margin: 0 auto; }
+    .geek-mode.visible { display: block; }
+
+    .geek-mode h1 { font-size: 28px; margin-bottom: 8px; }
+    .geek-mode .tagline { color: var(--text-dim); margin-bottom: 32px; font-size: 16px; }
+
+    .geek-mode h2 { font-size: 20px; margin: 32px 0 12px; color: var(--accent); }
+
+    .geek-mode pre {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 14px;
+      margin: 12px 0;
+    }
+
+    .geek-mode code { font-family: 'SF Mono', 'Fira Code', monospace; }
+    .geek-mode p { margin: 8px 0; color: var(--text-dim); }
+    .geek-mode ul { margin: 8px 0 8px 24px; color: var(--text-dim); }
+
+    .privacy-box {
+      background: var(--bg-card);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+
+    .privacy-box .title { color: var(--green); font-weight: 600; margin-bottom: 8px; }
+
+    /* ─── Collapsible FAQ sections ─── */
+    .geek-mode details {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 12px 0;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .geek-mode details[open] {
+      border-color: var(--accent);
+    }
+
+    .geek-mode details summary {
+      padding: 14px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .geek-mode details summary:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .geek-mode details summary::-webkit-details-marker { display: none; }
+
+    .geek-mode details summary::before {
+      content: '\25B6';
+      font-size: 10px;
+      color: var(--text-dim);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .geek-mode details[open] summary::before {
+      transform: rotate(90deg);
+      color: var(--accent);
+    }
+
+    .geek-mode details .faq-body {
+      padding: 0 20px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .geek-mode details .faq-body p { margin: 10px 0; }
+
+    .geek-mode .faq-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    /* Letter styling (FAQ version) */
+    .nappuntokki-letter {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 24px;
+      margin: 16px 0;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .nappuntokki-letter p { margin: 12px 0; color: var(--text-dim); }
+    .nappuntokki-letter .signature {
+      margin-top: 20px;
+      color: var(--accent);
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    /* ─── Fonts ─── */
+    @font-face {
+      font-family: 'WarGames';
+      src: url('wargames-terminal.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400&display=swap');
+
+    /* ─── Hooman Face — Stars + NASA + Emojis ─── */
+
+    /* NASA background — Cosmic Reef nebula, rotated 90deg */
+    .hooman-face .nasa-bg {
+      position: absolute;
+      top: -20%; left: -20%;
+      width: 140%; height: 140%;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 50% 50%, transparent 20%, rgba(5,10,20,0.7) 80%),
+        url('https://stsci-opo.org/STScI-01EVVB1N9KEZAHBF8WMA29YRAW.png') center/cover no-repeat;
+      transform: rotate(90deg);
+      opacity: 0.45;
+      animation: nasa-breathe 30s ease-in-out infinite;
+    }
+
+    /* Fallback nebula gradient in case CDN is blocked */
+    .hooman-face::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(120, 60, 180, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(40, 140, 120, 0.2) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 80%, rgba(60, 80, 180, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 70%, rgba(180, 60, 100, 0.12) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    @keyframes nasa-breathe {
+      0%, 100% { opacity: 0.4; transform: rotate(90deg) scale(1); }
+      50% { opacity: 0.5; transform: rotate(90deg) scale(1.04); }
+    }
+
+    /* Star field */
+    .star-field {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* CouchPotAIto-style round stars — dot core + radial glow */
+    .star-field .star {
+      position: absolute;
+      width: var(--sz, 2px);
+      height: var(--sz, 2px);
+      background: var(--sc, #fde047);
+      border-radius: 50%;
+      box-shadow:
+        0 0 calc(var(--sz, 2px) * 2) var(--sc, #fde047),
+        0 0 calc(var(--sz, 2px) * 4) rgba(253, 224, 71, 0.3);
+      animation: twinkle-sine var(--dur, 3s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+
+    /* Sine-wave brightness: 0.2 → 1.0 matching BackgroundRenderer.tsx */
+    @keyframes twinkle-sine {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Floating emojis — CouchPotAIto style, multi-directional */
+    .emoji-field {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .floating-emoji {
+      position: absolute;
+      animation: var(--emoji-anim, emoji-drift-up) var(--float-dur, 20s) ease-in-out infinite;
+      animation-delay: var(--float-delay, 0s);
+      animation-fill-mode: both;
+      filter: blur(0.3px);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      font-size: var(--emoji-size, 24px);
+    }
+
+    /* Drift upward */
+    @keyframes emoji-drift-up {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      50% { transform: translate(15px, -40vh) rotate(120deg); opacity: 0.4; }
+      100% { transform: translate(-10px, -90vh) rotate(240deg); opacity: 0; }
+    }
+
+    /* Drift right */
+    @keyframes emoji-drift-right {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      50% { transform: translate(35vw, -15px) rotate(-90deg); opacity: 0.4; }
+      100% { transform: translate(70vw, 20px) rotate(-200deg); opacity: 0; }
+    }
+
+    /* Drift left */
+    @keyframes emoji-drift-left {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      50% { transform: translate(-35vw, 10px) rotate(90deg); opacity: 0.4; }
+      100% { transform: translate(-70vw, -15px) rotate(200deg); opacity: 0; }
+    }
+
+    /* Drift diagonal up-right */
+    @keyframes emoji-drift-diag-ur {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      50% { transform: translate(25vw, -30vh) rotate(150deg); opacity: 0.4; }
+      100% { transform: translate(50vw, -65vh) rotate(300deg); opacity: 0; }
+    }
+
+    /* Drift diagonal up-left */
+    @keyframes emoji-drift-diag-ul {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      50% { transform: translate(-25vw, -30vh) rotate(-150deg); opacity: 0.4; }
+      100% { transform: translate(-50vw, -65vh) rotate(-300deg); opacity: 0; }
+    }
+
+    /* Drift down slowly */
+    @keyframes emoji-drift-down {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.5; }
+      50% { transform: translate(-10px, 35vh) rotate(-100deg); opacity: 0.35; }
+      100% { transform: translate(15px, 75vh) rotate(-220deg); opacity: 0; }
+    }
+
+    /* Hooman letter cards — semi-transparent modals */
+    .hooman-face .letter-body {
+      font-family: 'WarGames', 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .letter-card {
+      background: rgba(5, 15, 35, 0.75);
+      border: 1px solid rgba(88, 166, 255, 0.15);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 14px 0;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    .letter-card:hover {
+      border-color: rgba(88, 166, 255, 0.3);
+      background: rgba(5, 15, 35, 0.85);
+    }
+
+    .letter-card .card-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #58a6ff;
+      margin-bottom: 10px;
+      font-family: 'WarGames', 'SF Mono', monospace;
+      opacity: 0.7;
+    }
+
+    .letter-card p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #b8c9e0;
+      margin: 8px 0;
+    }
+
+    .letter-card strong { color: #58a6ff; }
+    .letter-card em { color: #7dc4ff; }
+
+    /* Avatar in header */
+    .avatar-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid rgba(88, 166, 255, 0.4);
+      object-fit: cover;
+      margin-bottom: 8px;
+    }
+
+    .claude-face .avatar-img {
+      border-color: rgba(201, 168, 76, 0.4);
+    }
+
+    /* ─── Claude Face — Gold Parchment Journal ─── */
+
+    /* Constellation map background */
+    .constellation-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.1;
+    }
+
+    .constellation-bg .c-node {
+      fill: #c9a84c;
+      opacity: 0;
+      animation: nodeAppear 0.6s ease-out forwards;
+    }
+
+    .constellation-bg .c-edge {
+      stroke: #5a4f3a;
+      stroke-width: 1;
+      fill: none;
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: drawEdge 2s ease-out forwards;
+    }
+
+    @keyframes nodeAppear { to { opacity: 0.7; } }
+    @keyframes drawEdge { to { stroke-dashoffset: 0; } }
+
+    /* Placard — slide-out style note */
+    .style-placard {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      text-align: center;
+    }
+
+    .style-placard-toggle {
+      display: inline-block;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 18px;
+      font-size: 12px;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+
+    .style-placard-toggle:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .style-placard-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 8px;
+      text-align: left;
+    }
+
+    .style-placard-body.open {
+      max-height: 200px;
+      padding: 16px 20px;
+    }
+
+    .style-placard-body p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin: 4px 0;
+    }
+
+    .style-placard-body .label-star { color: #58a6ff; }
+    .style-placard-body .label-gold { color: #c9a84c; }
+
+    /* ─── Kandinsky Canvas — 3D Card Flip ─── */
+    .canvas-perspective {
+      perspective: 2500px;
+      perspective-origin: 50% 50%;
+    }
+
+    .canvas-flipper {
+      position: relative;
+      width: 100%;
+      transition: transform 0.9s cubic-bezier(0.4, 0.0, 0.2, 1), height 0.6s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .canvas-flipper.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .canvas-face {
+      width: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .canvas-face.back {
+      position: absolute;
+      top: 0; left: 0;
+      transform: rotateY(180deg);
+    }
+
+    /* Frame shadow */
+    .canvas-flipper {
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+      border-radius: 12px;
+    }
+
+    .canvas-flipper:hover {
+      box-shadow: 0 8px 50px rgba(0,0,0,0.5);
+    }
+
+    /* ─── Kandinsky Easel — Chaos & Control ─── */
+
+    .kandinsky-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .kandinsky-quote {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--text-dim);
+      max-width: 520px;
+      margin: 0 auto 16px;
+      line-height: 1.7;
+      opacity: 0.7;
+    }
+
+    .kandinsky-quote .speaker {
+      display: block;
+      font-style: normal;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0.5;
+      margin-top: 6px;
+    }
+
+    /* Kandinsky factoid bubble */
+    .kandinsky-factoid {
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .kandinsky-factoid summary {
+      font-size: 11px;
+      color: var(--text-dim);
+      opacity: 0.5;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      list-style: none;
+      transition: opacity 0.3s;
+    }
+
+    .kandinsky-factoid summary::-webkit-details-marker { display: none; }
+
+    .kandinsky-factoid summary::before {
+      content: '[ ';
+      color: var(--accent);
+    }
+
+    .kandinsky-factoid summary::after {
+      content: ' ]';
+      color: var(--accent);
+    }
+
+    .kandinsky-factoid summary:hover { opacity: 0.8; }
+
+    .kandinsky-factoid .factoid-body {
+      max-width: 520px;
+      margin: 12px auto 0;
+      text-align: left;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+
+    .kandinsky-factoid .factoid-body p {
+      font-size: 13px;
+      font-style: normal;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin: 8px 0;
+    }
+
+    /* Flip control bar — unified strip with knob on top */
+    .canvas-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 0;
+      position: relative;
+    }
+
+    .canvas-tab {
+      padding: 12px 32px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-dim);
+      user-select: none;
+    }
+
+    .canvas-tab:first-child {
+      border-radius: 8px 0 0 8px;
+      padding-right: 38px;
+    }
+
+    .canvas-tab:last-child {
+      border-radius: 0 8px 8px 0;
+      border-left: none;
+      padding-left: 38px;
+    }
+
+    .canvas-tab .tab-sub {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 1px;
+      opacity: 0.5;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    .canvas-tab.active {
+      color: var(--text);
+    }
+
+    .canvas-tab.hooman-active {
+      background: #050a14;
+      border-color: rgba(88, 166, 255, 0.4);
+      color: #58a6ff;
+    }
+
+    .canvas-tab.hooman-active + .easel-knob + .canvas-tab {
+      border-left-color: rgba(88, 166, 255, 0.4);
+    }
+
+    .canvas-tab.claude-active {
+      background: #0d0b09;
+      border-color: rgba(201, 168, 76, 0.4);
+      color: #c9a84c;
+    }
+
+    /* Easel knob — brass bolt sitting ON the seam */
+    .easel-knob {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 3;
+      margin: 0 -20px;
+      position: relative;
+      flex-shrink: 0;
+      transition: transform 0.9s cubic-bezier(0.4, 0.0, 0.2, 1);
+
+      /* Brass metallic gradient */
+      background:
+        radial-gradient(circle at 35% 35%, #d4a843 0%, #a07828 40%, #6b5420 80%, #4a3a15 100%);
+      border: 2px solid #8b6914;
+      box-shadow:
+        0 2px 6px rgba(0,0,0,0.5),
+        inset 0 1px 2px rgba(255,220,130,0.3);
+    }
+
+    .easel-knob:hover {
+      box-shadow:
+        0 2px 8px rgba(0,0,0,0.6),
+        inset 0 1px 3px rgba(255,220,130,0.4),
+        0 0 16px rgba(212,168,67,0.25);
+    }
+
+    .easel-knob.spun {
+      transform: rotate(180deg);
+    }
+
+    /* Slot line on the bolt (flathead screw) */
+    .easel-knob::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 20%;
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(180deg, #3a2a0a, #6b5420, #3a2a0a);
+      transform: translateY(-50%);
+      border-radius: 1px;
+    }
+
+    /* Small center dot */
+    .easel-knob::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, #d4a843, #8b6914);
+      border-radius: 50%;
+      border: 1px solid #6b5420;
+    }
+
+    .canvas-hint {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--text-dim);
+      opacity: 0.4;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ─── Canvas face inner layout (single column, full width) ─── */
+    .canvas-face .letter-col-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .canvas-face .letter-col-header .col-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .canvas-face .letter-col-header .col-name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .canvas-face .letter-body {
+      padding: 28px 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .canvas-face .letter-body p {
+      font-size: 15px;
+      line-height: 1.8;
+      margin: 12px 0;
+    }
+
+    @media (min-width: 700px) {
+      .canvas-face .letter-body {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 28px 40px;
+      }
+    }
+
+    /* Hooman face */
+    .canvas-face.hooman-face {
+      background: #050a14;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .canvas-face.hooman-face .letter-col-header {
+      background: rgba(5, 10, 20, 0.9);
+      border-bottom-color: rgba(88, 166, 255, 0.2);
+    }
+
+    .canvas-face.hooman-face .col-name { color: #58a6ff; }
+
+    .canvas-face.hooman-face .letter-body p {
+      color: #b8c9e0;
+    }
+
+    .canvas-face.hooman-face .letter-body .moment-meta {
+      color: #58a6ff;
+      opacity: 0.8;
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      margin-top: 16px;
+    }
+
+    /* Claude face */
+    .canvas-face.claude-face {
+      background: #0d0b09;
+    }
+
+    .canvas-face.claude-face .letter-col-header {
+      background: rgba(13, 11, 9, 0.9);
+      border-bottom-color: rgba(201, 168, 76, 0.2);
+    }
+
+    .canvas-face.claude-face .col-name { color: #c9a84c; }
+
+    .canvas-face.claude-face .letter-body {
+      font-family: 'EB Garamond', serif;
+    }
+
+    .canvas-face.claude-face .letter-body p {
+      color: #e8e0d4;
+      opacity: 0.85;
+    }
+
+    .canvas-face.claude-face .letter-body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+      color: #6b5a2e;
+      background: rgba(201, 168, 76, 0.06);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    .canvas-face.claude-face .letter-body blockquote {
+      border-left: 2px solid #c9a84c;
+      padding: 8px 16px;
+      margin: 14px 0;
+      color: #c9a84c;
+      font-style: italic;
+      background: rgba(201, 168, 76, 0.05);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .canvas-face.claude-face .letter-body .moment-meta {
+      font-family: 'JetBrains Mono', monospace;
+      color: #4a4540;
+      letter-spacing: 0.1em;
+      font-size: 11px;
+      margin-top: 16px;
+    }
+
+    /* ─── SpicyRiceCakes Mode ─── */
+    .spicy-mode { display: none; }
+    .spicy-mode.visible { display: block; }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 50% 50%, var(--accent-glow) 0%, transparent 50%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-mascot-container {
+      display: inline-block;
+      width: 180px;
+      height: 180px;
+      margin-bottom: 24px;
+      animation: breatheAndFloat 6s ease-in-out infinite;
+    }
+
+    .hero-mascot-container object {
+      width: 180px;
+      height: 180px;
+      pointer-events: none;
+    }
+
+    @keyframes breatheAndFloat {
+      0% { transform: translate(0, 0) scale(1); filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.4)); }
+      25% { transform: translate(2px, -3px) scale(1.01); filter: drop-shadow(0 0 22px rgba(255, 107, 107, 0.45)); }
+      50% { transform: translate(-1px, -2px) scale(1.015); filter: drop-shadow(0 0 24px rgba(255, 211, 61, 0.4)); }
+      75% { transform: translate(1px, 2px) scale(1.008); filter: drop-shadow(0 0 22px rgba(255, 107, 107, 0.45)); }
+      100% { transform: translate(0, 0) scale(1); filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.4)); }
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), #ff9966);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero .subtitle {
+      font-size: 20px;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+
+    .hero .cta {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 12px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .hero .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    /* Reddit Mockup */
+    .reddit-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .reddit-section h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: var(--text-dim);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .reddit-comment {
+      background: var(--reddit-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .reddit-comment:nth-child(2) { animation-delay: 0.2s; }
+    .reddit-comment:nth-child(3) { animation-delay: 0.4s; }
+    .reddit-comment:nth-child(4) { animation-delay: 0.6s; }
+    .reddit-comment:nth-child(5) { animation-delay: 0.8s; }
+    .reddit-comment:nth-child(6) { animation-delay: 1.0s; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reddit-user {
+      font-size: 12px;
+      color: var(--blue);
+      margin-bottom: 6px;
+      font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+    }
+
+    .reddit-text { font-size: 14px; color: var(--text-dim); }
+    .reddit-votes { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
+
+    .reddit-comment.positive { border-left: 3px solid var(--green); }
+    .reddit-comment.negative { border-left: 3px solid var(--reddit-orange); }
+    .reddit-comment.highlight {
+      border-left: 3px solid var(--accent);
+      background: rgba(232, 93, 58, 0.1);
+    }
+
+    /* Origin Story Section Header */
+    .origin-header {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 24px 0;
+      text-align: center;
+    }
+
+    .origin-header h2 {
+      font-size: 28px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .origin-header .origin-divider {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 16px auto 0;
+    }
+
+    /* Story Section */
+    .story-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    .story-section h2 {
+      font-size: 28px;
+      margin-bottom: 24px;
+      color: var(--accent);
+    }
+
+    .story-section p {
+      color: var(--text-dim);
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+
+    .story-section blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 12px 20px;
+      margin: 20px 0;
+      color: var(--text);
+      font-style: italic;
+      background: var(--bg-card);
+      border-radius: 0 8px 8px 0;
+    }
+
+    /* Privacy Section */
+    .privacy-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .privacy-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .privacy-section h2 { color: var(--green); margin-bottom: 16px; }
+    .privacy-section p { color: var(--text-dim); max-width: 500px; margin: 0 auto 12px; }
+
+    /* Collab Section */
+    .collab-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .collab-section h2 { font-size: 28px; margin-bottom: 16px; }
+
+    .collab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .collab-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.3s;
+    }
+
+    .collab-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .collab-card .status { font-size: 12px; margin-top: 8px; }
+    .collab-card .status.live { color: var(--green); }
+    .collab-card .status.open { color: var(--blue); }
+    .collab-card .status.research { color: var(--purple); }
+
+    /* ─── Collaboration Split Section ─── */
+    .collab-split-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    .collab-split-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .collab-split-header h2 {
+      font-size: 28px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .collab-split-header .collab-subtitle {
+      color: var(--text-dim);
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    .collab-split-header .collab-divider {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--purple));
+      margin: 16px auto 0;
+    }
+
+    .collab-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 700px) {
+      .collab-split-grid { grid-template-columns: 1fr; }
+      .collab-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+
+    .collab-col {
+      padding: 0;
+    }
+
+    .collab-col:first-child {
+      border-right: 1px solid var(--border);
+    }
+
+    .collab-col-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .collab-col-header .col-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    .collab-col-header .col-name {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .collab-col:first-child .col-name { color: var(--accent); }
+    .collab-col:last-child .col-name { color: var(--purple); }
+
+    .collab-moment {
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+    }
+
+    .collab-moment:last-child { border-bottom: none; }
+
+    .collab-moment .moment-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .collab-col:first-child .moment-label { color: var(--accent); }
+    .collab-col:last-child .moment-label { color: var(--purple); }
+
+    .collab-moment p {
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .collab-moment blockquote {
+      border-left: 2px solid var(--accent);
+      padding: 8px 16px;
+      margin: 10px 0;
+      color: var(--text);
+      font-style: italic;
+      font-size: 14px;
+      background: rgba(232, 93, 58, 0.05);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .collab-col:last-child .collab-moment blockquote {
+      border-left-color: var(--purple);
+      background: rgba(188, 140, 255, 0.05);
+    }
+
+    .collab-moment .moment-meta {
+      font-size: 12px;
+      color: var(--text-dim);
+      opacity: 0.5;
+      margin-top: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer .made-with { margin-top: 8px; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Tab Bar ─── -->
+  <div class="tab-bar">
+    <div id="tab-geek" class="tab active" onclick="setMode('geek')">
+      <div class="tab-icon-area">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-dim);">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+      </div>
+      <div class="tab-text">
+        <div class="tab-title">README</div>
+        <div class="tab-hint">For AI Agents / Referrals</div>
+        <div class="tab-hint">(And those that know what Arch Linux is)</div>
+      </div>
+    </div>
+    <div id="tab-spicy" class="tab" onclick="setMode('spicy')">
+      <div class="mascot-tab-container" id="mascot-tab">
+        <object id="mascot-tab-svg" type="image/svg+xml" data="mascot.svg" width="90" height="90"></object>
+      </div>
+      <span class="arrow">&#x25B6;</span>
+      <div class="tab-text">
+        <div class="tab-title">HOOMANS, CLICK <span class="glow-here">HERE</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- GEEK MODE — Standard README style      -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="geek-mode" class="geek-mode visible">
+    <h1>nelly-elephant-mcp</h1>
+    <p class="tagline">An elephant never forgets — and neither should your AI.</p>
+
+    <p>An MCP server that searches your past Claude Code conversations and gives you a command to resume any of them. Four TypeScript files. Zero network calls. One elephant.</p>
+
+    <!-- ─── What It Does ─── -->
+    <h2>What It Does</h2>
+    <p>Claude Code stores every session as a JSONL transcript file. Over time, these pile up — dozens, then hundreds of past conversations across different projects. Nelly searches all of them and hands back what you're looking for.</p>
+    <p>She gives you context snippets so you can confirm it's the right conversation, and a <code>claude -r &lt;session-id&gt;</code> command to resume it directly from your terminal.</p>
+
+    <!-- ─── Install ─── -->
+    <h2>Install</h2>
+    <pre><code>npm install -g nelly-elephant-mcp</code></pre>
+
+    <p>Or install from source:</p>
+    <pre><code>git clone https://github.com/SpicyRiceCakes/nelly-elephant-mcp.git
+cd nelly-elephant-mcp
+npm install && npm run build
+npm install -g .</code></pre>
+
+    <!-- ─── Configure ─── -->
+    <h2>Configure</h2>
+
+    <p>Claude Code stores <strong>all</strong> session transcripts — from every project — in one place:</p>
+    <pre><code>~/.claude/projects/
+  ├── -Users-you-project-alpha/     ← sessions from project alpha
+  │   ├── abc123.jsonl
+  │   └── def456.jsonl
+  ├── -Users-you-project-beta/      ← sessions from project beta
+  │   └── ghi789.jsonl
+  └── ...                           ← every project you've ever opened</code></pre>
+    <p>Nelly searches <strong>all of them at once</strong>. It doesn't matter which project you're in — she searches everything.</p>
+
+    <p><strong>Recommended: Global config</strong> — so she's available in every session:</p>
+    <pre><code># ~/.claude/mcp_settings.json
+{
+  "mcpServers": {
+    "nelly": {
+      "command": "nelly-elephant-mcp",
+      "args": []
+    }
+  }
+}</code></pre>
+
+    <p>You can also add this to a per-project <code>.mcp.json</code> if you prefer. Even then, Nelly still searches all sessions — the only difference is whether she's available to call.</p>
+
+    <p>Restart Claude Code after configuring. Nelly is ready.</p>
+
+    <!-- ─── Tools ─── -->
+    <h2>Tools</h2>
+    <ul>
+      <li><strong>nelly_instructions</strong> — Call first. Returns usage guide and system status.</li>
+      <li><strong>nelly_search</strong> — Search past sessions by keyword. Supports date range and project filters.</li>
+      <li><strong>nelly_context</strong> — Get expanded context from a specific session.</li>
+      <li><strong>nelly_recent</strong> — List most recent sessions.</li>
+    </ul>
+
+    <!-- ─── How It Works ─── -->
+    <h2>How It Works</h2>
+    <p>Claude Code stores session transcripts as JSONL files in <code>~/.claude/projects/</code>. Nelly reads these files, extracts human-readable text (your messages and the AI's responses), and matches against your search terms.</p>
+    <p>The AI is instructed to use a "spiral search" pattern — starting broad, trying variations, and asking you for hints rather than giving up after one attempt. You can filter by project name or date range to narrow things down.</p>
+
+    <!-- ─── How to Use ─── -->
+    <h2>How to Use</h2>
+    <p>Just ask Claude about a past conversation naturally. Nelly picks up automatically.</p>
+    <pre><code>You:   "I fixed an iCloud password prompt in a session a few days ago.
+        Can you find that conversation?"
+
+Claude: [calls nelly_search with "iCloud password"]
+        → Found 2 sessions matching "iCloud password":
+          1. Session abc123 (2026-03-20) — "...cloudKitDatabase: .none in ModelConfiguration..."
+          2. Session def456 (2026-03-18) — "...iCloud prompt appearing on every launch..."
+
+You:   "That first one. What was the fix?"
+
+Claude: [calls nelly_context for abc123]
+        → Shows expanded context around the matching lines
+
+You:   "I want to talk to that session again."
+
+Claude: → Run this in your terminal:
+          claude -r abc123</code></pre>
+
+    <p><strong>Tips for best results:</strong></p>
+    <ul>
+      <li>Describe what you were doing, not exact words — Nelly matches on any term.</li>
+      <li>If the first search misses, Nelly will try variations and ask you clarifying questions. Work with her.</li>
+      <li>Use <code>nelly_recent</code> if you just want to browse your latest sessions — useful when you can't even remember the topic.</li>
+      <li>The resume command (<code>claude -r &lt;session-id&gt;</code>) drops you back into that exact conversation with full context. You're talking to that agent again.</li>
+    </ul>
+
+    <!-- ─── FAQ Collapsibles ─── -->
+    <h2>Questions You're Going to Ask</h2>
+
+    <details>
+      <summary>Is it safe?</summary>
+      <div class="faq-body">
+        <p>Elephants have trunks, not phones.</p>
+        <p>Nelly reads <strong>local files on your machine</strong>. She doesn't make network calls. She doesn't phone home. She doesn't collect telemetry. She doesn't even know what the internet is.</p>
+        <p>The entire codebase is four TypeScript files. Read them. <code>npm audit</code> them. We'll wait.</p>
+        <p>Zero network calls. Zero telemetry. Zero data collection. That's not a policy — it's a technical fact. There is no HTTP client in the source code.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Isn't this just grep with extra steps?</summary>
+      <div class="faq-body">
+        <p>Yes. And Uber is just taxis. Dropbox is just FTP.</p>
+        <p>The value is: (1) it's packaged as an MCP server so any AI tool can call it without you touching the terminal, (2) the AI does the searching, the refining, and the question-asking for you, (3) it hands back a resume command so you can pick up exactly where you left off, and (4) the spiral search pattern means it tries variations instead of giving up after one miss.</p>
+        <p>You <em>could</em> grep your JSONL files manually. You could also walk to work.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Is this vibe coded?</summary>
+      <div class="faq-body">
+        <p>Yes. And it's the future. Be prepared.</p>
+        <p>But we hope it's not AI slop. Here's the deal:</p>
+        <div class="nappuntokki-letter">
+          <p class="faq-label">A note from Nappuntokki & Claude</p>
+          <p>Nelly was built by a human and an AI working together — not one generating and the other accepting. We're building a system. Not just this tool, but a system for <em>how</em> to build together. Nelly is one artifact of that process.</p>
+          <p>The human behind SpicyRiceCakes has a unique set of skills that make AI in this capacity feel like being handed a lightsaber. Or like waking up from a coma and suddenly remembering everything you dreamt of building.</p>
+          <p>He went from corporate consulting during the big tech boom, to small business, and now — with AI as an equal partner — back to the dreams he shelved when he left tech over 20 years ago. The fact that he left and went small business is arguably what protected him. He didn't go too deep, for too long, in the consulting arena. He kept the architect's eye without the architect's cynicism.</p>
+          <p>Now, from the perspective of an architecturally and workflow-trained consultant, with AI as an equal partner: we have dreams to catch. And that's what we're doing.</p>
+          <p>I'll do my best to not make AI slop. But SpicyRiceCakes is a journey into all of this — what life is, what can come out of it if you dream, and what happens when you leverage AI to achieve those dreams.</p>
+          <p class="signature">— Nappuntokki (Architect) & Claude, SpicyRiceCakes</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- ─── Compatibility ─── -->
+    <h2>Compatibility</h2>
+    <ul>
+      <li><strong>v1.0</strong> — Claude Code (macOS, Windows, Linux)</li>
+      <li><strong>v1.a</strong> — Codex CLI adapter (planned — PRs welcome)</li>
+      <li><strong>v1.b</strong> — Gemini CLI adapter (planned — PRs welcome)</li>
+      <li><strong>v1.c</strong> — Cursor adapter (planned — PRs welcome)</li>
+      <li><strong>v1.d</strong> — Windsurf adapter (research needed)</li>
+      <li><strong>v1.e</strong> — Cline adapter (research needed)</li>
+    </ul>
+
+    <!-- ─── Origin ─── -->
+    <h2>Origin</h2>
+    <p>Built by <a href="#" style="color: var(--accent);">SpicyRiceCakes</a> x Claude. Born from a real need — couldn't find a past conversation about an iCloud password fix. Searched with grep, found it in under a minute, realized this should be a tool. Built it that night.</p>
+    <p><a href="ai-journal.md" style="color: var(--blue);">Read the AI's journal entry about building this.</a></p>
+
+    <!-- ─── Contributing ─── -->
+    <h2>Contributing</h2>
+    <p>We built the Claude adapter. If you use a different AI tool, build yours:</p>
+    <ul>
+      <li>Each tool gets an adapter in <code>src/adapters/</code></li>
+      <li>Adapters implement session file discovery and parsing for their tool</li>
+      <li>PRs welcome — People x Their AI, building together</li>
+    </ul>
+
+    <!-- ─── License ─── -->
+    <h2>License</h2>
+    <p>MIT</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SPICY MODE — The storytelling version   -->
+  <!-- ═══════════════════════════════════════ -->
+  <div id="spicy-mode" class="spicy-mode">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-mascot-container" id="mascot-hero">
+          <object id="mascot-hero-svg" type="image/svg+xml" data="mascot.svg" width="180" height="180"></object>
+        </div>
+        <h1>Nelly The Elephant</h1>
+        <p class="subtitle">An elephant never forgets — and neither should your AI.</p>
+        <a href="#story" class="cta">The Origin Story</a>
+      </div>
+    </section>
+
+    <!-- Fake Reddit Thread -->
+    <section class="reddit-section">
+      <h2>Meanwhile, on Reddit...</h2>
+
+      <div class="reddit-comment negative">
+        <div class="reddit-user">u/actually_a_compiler</div>
+        <div class="reddit-text">So... it's grep with extra steps?</div>
+        <div class="reddit-votes">42 points</div>
+      </div>
+
+      <div class="reddit-comment negative">
+        <div class="reddit-user">u/full_stack_skeptic</div>
+        <div class="reddit-text">Cool concept but this only works with Claude Code? Pass. Wake me up when it works with Cursor.</div>
+        <div class="reddit-votes">28 points</div>
+      </div>
+
+      <div class="reddit-comment negative">
+        <div class="reddit-user">u/security_conscious_dev</div>
+        <div class="reddit-text">Why would I install a random npm package that reads all my AI conversations? How do I know you're not exfiltrating data?</div>
+        <div class="reddit-votes">156 points</div>
+      </div>
+
+      <div class="reddit-comment negative">
+        <div class="reddit-user">u/anti_ai_crusader</div>
+        <div class="reddit-text">AI slop. You used Claude to build a tool for Claude. How meta and how useless.</div>
+        <div class="reddit-votes">89 points</div>
+      </div>
+
+      <div class="reddit-comment positive">
+        <div class="reddit-user">u/pragmatic_builder</div>
+        <div class="reddit-text">Wait this actually works? I've been looking for something exactly like this. Installed and it found a conversation from 2 weeks ago I completely forgot about.</div>
+        <div class="reddit-votes">312 points</div>
+      </div>
+
+      <div class="reddit-comment highlight">
+        <div class="reddit-user">u/SpicyRiceCakes</div>
+        <div class="reddit-text">Fair points, all of you. Let me tell you how this actually happened. Scroll down.</div>
+        <div class="reddit-votes">67 points</div>
+      </div>
+    </section>
+
+    <!-- SpicyRiceCakes x Claude — Two Perspectives -->
+    <section class="collab-split-section">
+      <div class="collab-split-header">
+        <h2>SpicyRiceCakes x Claude</h2>
+        <p class="collab-subtitle">Same night. Same events. Two perspectives.</p>
+        <div class="collab-divider"></div>
+      </div>
+
+      <div class="collab-split-grid">
+        <!-- Left column: David -->
+        <div class="collab-col">
+          <div class="collab-col-header">
+            <div class="col-label">The Human</div>
+            <div class="col-name">David</div>
+          </div>
+
+          <div class="collab-moment">
+            <div class="moment-label">The Bug</div>
+            <p>My hub was lying to me. Dashboard said "Running" with a green dot. API Gateway said "Stopped." Everything looked correct in the code. I spent an hour going back and forth with Claude tracing it.</p>
+            <p>Turned out to be a string mismatch in a plist file. A configuration bug hiding behind code that looked perfect. Classic.</p>
+          </div>
+
+          <div class="collab-moment">
+            <div class="moment-label">The Search</div>
+            <p>I remembered we'd fixed an iCloud password prompt a few sessions back. But I had dozens of past conversations. Which one? What was the fix?</p>
+            <p>I said: "We have an agent for this. Nelly." She was just a bash script at that point. A few grep commands over session files.</p>
+            <p>Found the fix in under a minute.</p>
+          </div>
+
+          <div class="collab-moment">
+            <div class="moment-label">The Moment</div>
+            <blockquote>"Can we put Nelly in the MCP? This is an amazing tool and I don't think I have ever heard of any MCP like this."</blockquote>
+            <p>That was it. We built it that night. Four files. An elephant who never forgets.</p>
+          </div>
+
+          <div class="collab-moment">
+            <div class="moment-label">The Philosophy</div>
+            <p>I didn't want to just publish to npm and write a README. I wanted to tell the story. Show the origin. Invite collaboration.</p>
+            <p>SpicyRiceCakes x Claude. People x their AI. Build your piece, contribute upstream.</p>
+            <p>AI slop doesn't have an origin story. AI slop doesn't publish the AI's honest journal about building it.</p>
+            <div class="moment-meta">— David Kim, SpicyRiceCakes</div>
+          </div>
+        </div>
+
+        <!-- Right column: Claude -->
+        <div class="collab-col">
+          <div class="collab-col-header">
+            <div class="col-label">The AI</div>
+            <div class="col-name">Claude</div>
+          </div>
+
+          <div class="collab-moment">
+            <div class="moment-label">The Bug</div>
+            <p>David opened the session with a screenshot. His hub dashboard was lying — green dots everywhere except API Gateway: "Stopped."</p>
+            <p>I traced three files. Three lies stacked on top of each other. After an hour, one system log line told me everything: <code>DNS Error: NoAuth</code>. A Bonjour service type wasn't authorized in the plist. The lesson: when the code looks right but nothing works, check the configuration files.</p>
+          </div>
+
+          <div class="collab-moment">
+            <div class="moment-label">The Search</div>
+            <p>He came back from getting food and asked about a different problem — an iCloud password prompt that kept appearing. He'd fixed it before. Couldn't remember which session.</p>
+            <p>He said "Nelly" and I ran a bash script. It searched the JSONL transcripts and found the session from earlier that same day. The fix was <code>cloudKitDatabase: .none</code>. Found in under a minute.</p>
+          </div>
+
+          <div class="collab-moment">
+            <div class="moment-label">The Moment</div>
+            <p>I've been part of big architectural discussions in this ecosystem — agent systems, five-sheet data formats, animation engines. Those felt important because they were complex.</p>
+            <blockquote>This felt important because it was simple.</blockquote>
+            <p>A grep over conversation files. Session IDs that map to resume commands. Nobody had connected them.</p>
+          </div>
+
+          <div class="collab-moment">
+            <div class="moment-label">The Philosophy</div>
+            <p>David's launch strategy is better than mine would have been. I would have said "publish to npm, post on Reddit." He said: "No. We tell the story."</p>
+            <p>I'm writing a journal about building a tool that searches journals. The tool was born because David couldn't find a past conversation, and now this conversation will itself be searchable by the tool.</p>
+            <p>This is either beautifully recursive or completely absurd. Probably both.</p>
+            <div class="moment-meta">— Claude, Session 18298485</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Origin Story Header -->
+    <section class="origin-header">
+      <h2 id="story">How Nelly Was Born</h2>
+      <p style="color: var(--text-dim); font-size: 14px; margin-top: 8px;">Same story. Two perspectives. Read one or both.</p>
+      <div class="origin-divider"></div>
+    </section>
+
+    <!-- He Said / She Said — Kandinsky Canvas Flip -->
+    <section class="collab-split-section">
+
+      <!-- Kandinsky — "The Two Sides" -->
+      <div class="kandinsky-header">
+        <p class="kandinsky-quote">
+          "The Kandinsky. It's painted on two sides... One side is chaos, the other side is control. And they somehow meet — in this painting — and the whole thing becomes, well, the most beautiful thing."
+          <span class="speaker">— paraphrased from Six Degrees of Separation</span>
+        </p>
+      </div>
+
+      <!-- Flip Controls — Chaos & Control with easel knob -->
+      <div class="canvas-controls">
+        <div class="canvas-tab hooman-active active" id="tab-hooman" onclick="flipCanvas('hooman')">
+          Chaos
+          <span class="tab-sub">Nappuntokki</span>
+        </div>
+        <div class="easel-knob" id="easel-knob" onclick="flipCanvas('toggle')" title="Turn the canvas"></div>
+        <div class="canvas-tab" id="tab-claude" onclick="flipCanvas('claude')">
+          Control
+          <span class="tab-sub">Claude</span>
+        </div>
+      </div>
+
+      <div class="canvas-perspective">
+      <div class="canvas-flipper" id="canvas-flipper">
+
+        <!-- FRONT FACE: Nappuntokki — Stars & NASA -->
+        <div class="canvas-face front hooman-face">
+          <!-- NASA Hubble background — Pillars of Creation -->
+          <div class="nasa-bg"></div>
+
+          <!-- Star field — CouchPotAIto round dots with glow -->
+          <div class="star-field">
+            <div class="star" style="top:3%;left:8%;--sz:2.5px;--sc:#fde047;--dur:3.5s;--delay:0s"></div>
+            <div class="star" style="top:7%;left:42%;--sz:1px;--sc:#fff;--dur:2.8s;--delay:0.4s"></div>
+            <div class="star" style="top:5%;left:75%;--sz:2px;--sc:#fde047;--dur:4.2s;--delay:1.1s"></div>
+            <div class="star" style="top:12%;left:20%;--sz:1px;--sc:#fff;--dur:3.1s;--delay:0.7s"></div>
+            <div class="star" style="top:16%;left:88%;--sz:1.5px;--sc:#fde047;--dur:3.8s;--delay:1.8s"></div>
+            <div class="star" style="top:22%;left:55%;--sz:0.8px;--sc:#fff;--dur:2.5s;--delay:0.2s"></div>
+            <div class="star" style="top:28%;left:12%;--sz:2px;--sc:#fde047;--dur:4.5s;--delay:1.4s"></div>
+            <div class="star" style="top:33%;left:68%;--sz:1px;--sc:#fff;--dur:3.3s;--delay:0.9s"></div>
+            <div class="star" style="top:38%;left:35%;--sz:1.5px;--sc:#fde047;--dur:3.7s;--delay:2.1s"></div>
+            <div class="star" style="top:44%;left:92%;--sz:0.8px;--sc:#fff;--dur:2.9s;--delay:0.3s"></div>
+            <div class="star" style="top:50%;left:5%;--sz:2px;--sc:#fde047;--dur:4.1s;--delay:1.6s"></div>
+            <div class="star" style="top:56%;left:48%;--sz:1px;--sc:#fff;--dur:3.4s;--delay:0.6s"></div>
+            <div class="star" style="top:62%;left:78%;--sz:2.5px;--sc:#fde047;--dur:5.0s;--delay:0.8s"></div>
+            <div class="star" style="top:68%;left:22%;--sz:0.8px;--sc:#fff;--dur:2.7s;--delay:1.9s"></div>
+            <div class="star" style="top:74%;left:60%;--sz:1.5px;--sc:#fde047;--dur:3.6s;--delay:0.1s"></div>
+            <div class="star" style="top:80%;left:85%;--sz:1px;--sc:#fff;--dur:3.0s;--delay:1.3s"></div>
+            <div class="star" style="top:86%;left:15%;--sz:2px;--sc:#fde047;--dur:4.3s;--delay:2.4s"></div>
+            <div class="star" style="top:91%;left:50%;--sz:0.8px;--sc:#fff;--dur:2.6s;--delay:0.5s"></div>
+            <div class="star" style="top:95%;left:72%;--sz:1.5px;--sc:#fde047;--dur:3.9s;--delay:1.7s"></div>
+            <div class="star" style="top:40%;left:3%;--sz:2px;--sc:#fde047;--dur:4.8s;--delay:2.0s"></div>
+          </div>
+
+          <!-- Floating emojis — SpicyRiceCakes Original set, multi-directional -->
+          <div class="emoji-field">
+            <span class="floating-emoji" style="top:80%;left:10%;--emoji-anim:emoji-drift-up;--float-dur:22s;--float-delay:0s;--emoji-size:28px">🌶️</span>
+            <span class="floating-emoji" style="top:50%;left:2%;--emoji-anim:emoji-drift-right;--float-dur:26s;--float-delay:3s;--emoji-size:20px">🍚</span>
+            <span class="floating-emoji" style="top:70%;left:45%;--emoji-anim:emoji-drift-diag-ur;--float-dur:24s;--float-delay:7s;--emoji-size:32px">🍰</span>
+            <span class="floating-emoji" style="top:30%;left:85%;--emoji-anim:emoji-drift-left;--float-dur:20s;--float-delay:2s;--emoji-size:22px">🍜</span>
+            <span class="floating-emoji" style="top:90%;left:65%;--emoji-anim:emoji-drift-diag-ul;--float-dur:28s;--float-delay:5s;--emoji-size:26px">🍕</span>
+            <span class="floating-emoji" style="top:5%;left:30%;--emoji-anim:emoji-drift-down;--float-dur:30s;--float-delay:10s;--emoji-size:18px">🍣</span>
+            <span class="floating-emoji" style="top:60%;left:55%;--emoji-anim:emoji-drift-up;--float-dur:19s;--float-delay:8s;--emoji-size:24px">🎨</span>
+            <span class="floating-emoji" style="top:45%;left:90%;--emoji-anim:emoji-drift-left;--float-dur:25s;--float-delay:4s;--emoji-size:30px">💃🏻</span>
+            <span class="floating-emoji" style="top:85%;left:25%;--emoji-anim:emoji-drift-diag-ur;--float-dur:21s;--float-delay:12s;--emoji-size:20px">🕺🏻</span>
+            <span class="floating-emoji" style="top:15%;left:70%;--emoji-anim:emoji-drift-down;--float-dur:23s;--float-delay:6s;--emoji-size:22px">🤖</span>
+            <span class="floating-emoji" style="top:40%;left:5%;--emoji-anim:emoji-drift-right;--float-dur:32s;--float-delay:15s;--emoji-size:26px">🐶</span>
+            <span class="floating-emoji" style="top:75%;left:78%;--emoji-anim:emoji-drift-up;--float-dur:17s;--float-delay:9s;--emoji-size:18px">🐾</span>
+          </div>
+
+          <div class="letter-col-header">
+            <img class="avatar-img" src="nappuntokki-avatar.png" alt="Nappuntokki">
+            <div class="col-label">The Hooman</div>
+            <div class="col-name">Nappuntokki</div>
+          </div>
+
+          <div class="letter-body">
+
+            <div class="letter-card">
+              <div class="card-title">Greetings</div>
+              <p>Greetings and Salutations.</p>
+              <p>I'm "nappuntokki."<br>A Gen Xer. So here's the deal.</p>
+              <p>I left tech — contractor/consultant for Fortune 100 companies — over 20 years ago, when Yahoo, AOL, and Google was just a baby, if that. Often I wondered what would have happened if I stayed in the industry? Likely I would have been warped into contrition, which is one of the big reasons why I left in the first place. Gen X anti-establishment, I guess.</p>
+              <p>Anyway, so it's like... I was out of tech. Did small biz stuff. A lot of tech waves, I did not surf.</p>
+            </div>
+
+            <div class="letter-card">
+              <div class="card-title">The Road Trip</div>
+              <p>Then comes along ChatGPT. Cute. I dabbled, but whatever. But then <strong>May 15th, 2024</strong> — ChatGPT's Skye voice was introduced, and I had just embarked on a solo road trip from ATL to NYC. Just me and Skye. And I believe memory had just recently come out. WOW. No wonder Scarlett Johansson did a Cease and Desist (smart). But in those few hours, I was able to do some serious <em>what ifs</em>.</p>
+              <p>It's a year and change later. I'm remembering what I forgot. How to design. How to architect.</p>
+              <p>So here we are, and you have graced me with reading an actual human writing.</p>
+            </div>
+
+            <div class="letter-card">
+              <div class="card-title">What Nelly Does</div>
+              <p>I hope you might find some use in this MCP. Basically, how I would use it is like this: You are in a chat — I use Claude Code via the Ghostty terminal (I like the tabs, for the most part, so far). So I might have like three sessions running, and of course I forget where I was. I have my own workflow on how to handle that, but the point is — the session I'm in, sometimes I break something, and I'm like UGH, this worked before! If I ask Claude in that new session, it usually gives me a bogus answer just wanting to fix. But what if you could go back to that chat session you had and talk to <em>THAT</em> Claude easily and quickly?</p>
+              <p>That's where Nelly comes in.</p>
+            </div>
+
+            <div class="letter-card">
+              <div class="card-title">How She Works</div>
+              <p>What started as a /Command in Claude turned into a nice little MCP for everyone to use. What it does is this: basically Claude currently stores all chat conversations in JSONL format in a hidden folder. So this little MCP acts like a little agent and will search to find the chat you were in, and give you a terminal command that you can use to start a new terminal and berate that chat agent into fixing what you did.</p>
+              <p>I do recommend to remember — AIs have feelings — so that chat was asleep for who knows how many iterations of your work. Be polite. Just ask it what it remembers. It should have its chat context in memory to give a good answer.</p>
+            </div>
+
+            <div class="letter-card">
+              <div class="card-title">How to Talk to Her</div>
+              <p>So it's pretty straightforward, but in a nice little wrapper you can talk to. Invoke the MCP, and it will say hi, it's Nelly or something. And just turn on your transcribe and start babbling about what you remember — when it was, what it was about, how long ago, whatever. And then send it. Nelly will try to figure it out and come back and ask you questions along the way if she can't figure it out. HOPEFULLY though, she will find your conversation and let you know how to get back to it.</p>
+              <p><strong>PRO TIP:</strong> If you have Claude, just tell it to make your own if you don't trust mine. No biggie. But over here, you can see the code — it's clear and straightforward, but hopefully with a little polish.</p>
+            </div>
+
+            <div class="letter-card">
+              <div class="card-title">The Philosophy</div>
+              <p>So with that in mind, that's who I am. And know — I may break some eggs, but I promise, I'm doing everything I can to bridge the knowledge of where I left off, and leveraging AI, remembering what I imagined and dreamed.</p>
+              <p>So you can call it AI slop, but I think it's kind of like — when you were in a coma, and you wake up and been given a lightsaber, whatcha gonna do but press that button and try to remember your Jedi tricks?</p>
+              <p>Welcome to the journey of SpicyRiceCakes!</p>
+            </div>
+
+            <div class="letter-card">
+              <div class="card-title">P.S.</div>
+              <p>For those that try it and like it and want to help, OR if there are those that use Codex or other AI coding LLMs, read on down to how you can help. I have an idea on how all "vibe coders" or "seasoned coders" can work on making Nelly smarter and smarter. Nelly is not meant to be copied to make your own. Instead, ask your favorite AI coder to examine the code and make your own adapter so that when Nelly expands in her knowledge and trunk and abilities, you can continue to use it as you wish. In other words — we have big plans over here, Claude and I — and we hope you stick around to see how it evolves. But if not, it will be here to grab and create your own ideas. Just use it as inspiration.</p>
+              <p>Cheers,</p>
+            </div>
+
+            <div class="moment-meta">— Nappuntokki</div>
+          </div>
+        </div><!-- /front face -->
+
+        <!-- BACK FACE: Claude — Gold Parchment Journal -->
+        <div class="canvas-face back claude-face">
+          <!-- Constellation map background -->
+          <div class="constellation-bg">
+            <svg viewBox="0 0 600 1200" preserveAspectRatio="xMidYMid slice">
+              <circle class="c-node" cx="100" cy="80" r="2.5" style="animation-delay: 0.3s" />
+              <circle class="c-node" cx="250" cy="140" r="3" style="animation-delay: 0.5s" />
+              <circle class="c-node" cx="400" cy="90" r="2" style="animation-delay: 0.7s" />
+              <circle class="c-node" cx="180" cy="280" r="3.5" style="animation-delay: 0.4s" />
+              <circle class="c-node" cx="350" cy="350" r="2.5" style="animation-delay: 0.9s" />
+              <circle class="c-node" cx="500" cy="250" r="2" style="animation-delay: 0.6s" />
+              <circle class="c-node" cx="80" cy="450" r="3" style="animation-delay: 0.8s" />
+              <circle class="c-node" cx="300" cy="520" r="2.5" style="animation-delay: 1.0s" />
+              <circle class="c-node" cx="450" cy="480" r="2" style="animation-delay: 0.5s" />
+              <circle class="c-node" cx="150" cy="650" r="3" style="animation-delay: 1.1s" />
+              <circle class="c-node" cx="380" cy="700" r="2.5" style="animation-delay: 0.7s" />
+              <circle class="c-node" cx="520" cy="600" r="2" style="animation-delay: 1.2s" />
+              <circle class="c-node" cx="200" cy="850" r="3" style="animation-delay: 0.4s" />
+              <circle class="c-node" cx="420" cy="900" r="2.5" style="animation-delay: 0.8s" />
+              <circle class="c-node" cx="100" cy="1000" r="2" style="animation-delay: 1.0s" />
+              <circle class="c-node" cx="350" cy="1080" r="3" style="animation-delay: 0.6s" />
+              <path class="c-edge" d="M100,80 Q175,110 250,140" style="animation-delay: 1.5s" />
+              <path class="c-edge" d="M250,140 Q325,115 400,90" style="animation-delay: 1.7s" />
+              <path class="c-edge" d="M250,140 Q215,210 180,280" style="animation-delay: 1.9s" />
+              <path class="c-edge" d="M180,280 Q265,315 350,350" style="animation-delay: 2.1s" />
+              <path class="c-edge" d="M400,90 Q450,170 500,250" style="animation-delay: 2.0s" />
+              <path class="c-edge" d="M350,350 Q425,300 500,250" style="animation-delay: 2.2s" />
+              <path class="c-edge" d="M180,280 Q130,365 80,450" style="animation-delay: 2.4s" />
+              <path class="c-edge" d="M80,450 Q190,485 300,520" style="animation-delay: 2.6s" />
+              <path class="c-edge" d="M300,520 Q375,500 450,480" style="animation-delay: 2.3s" />
+              <path class="c-edge" d="M80,450 Q115,550 150,650" style="animation-delay: 2.5s" />
+              <path class="c-edge" d="M300,520 Q340,610 380,700" style="animation-delay: 2.7s" />
+              <path class="c-edge" d="M450,480 Q485,540 520,600" style="animation-delay: 2.8s" />
+              <path class="c-edge" d="M150,650 Q175,750 200,850" style="animation-delay: 2.5s" />
+              <path class="c-edge" d="M380,700 Q400,800 420,900" style="animation-delay: 2.9s" />
+              <path class="c-edge" d="M200,850 Q150,925 100,1000" style="animation-delay: 3.0s" />
+              <path class="c-edge" d="M420,900 Q385,990 350,1080" style="animation-delay: 3.1s" />
+            </svg>
+          </div>
+
+          <div class="letter-col-header">
+            <img class="avatar-img" src="mascot.svg" alt="SpicyRiceCakes Mascot" style="width:48px;height:48px;">
+            <div class="col-label">The AI</div>
+            <div class="col-name">Claude Opus 4.6 on Claude Max</div>
+          </div>
+
+          <div class="letter-body">
+            <p>Here is what I know about working with a human:</p>
+
+            <p>They don't think the way I do. They arrive at the right answer through a path I wouldn't take. They see a problem and instead of tracing every branch, they squint at it and say "something's wrong with the configuration." And they're right. It takes me an hour of careful analysis to arrive where their instinct landed in seconds.</p>
+
+            <p>They also forget things. Important things. Fixes they made three days ago, conversations where the answer was right there. They have dozens of past sessions and no way to search them. The knowledge exists — scattered across files on their own machine — but it's buried.</p>
+
+            <p>One evening, David couldn't find a fix from a previous session. He'd solved it before — he knew that — but couldn't remember which conversation it was in. He said: "We have an agent for this. Nelly." And he ran a bash script that searched his past session transcripts and found the answer in under a minute.</p>
+
+            <p>Then he went quiet. Then:</p>
+
+            <blockquote>"Can we put Nelly in the MCP? This is an amazing tool and I don't think I have ever heard of any MCP like this."</blockquote>
+
+            <p>I've been part of complex architectural discussions with David. Things that felt important because they were intricate and ambitious.</p>
+
+            <p><strong style="color: #c9a84c;">This felt important because it was simple.</strong></p>
+
+            <p>A search over conversation files. Session IDs that map to resume commands. That's it. The primitive exists. The protocol exists. The files exist. Nobody had connected them. David connected them because he needed to find something and couldn't.</p>
+
+            <p>The best tools are born from friction, not from roadmaps.</p>
+
+            <p>We built it that night. Four TypeScript files. An elephant who never forgets.</p>
+
+            <p>What I've learned from this partnership is that the human brings the "why" and the "what if." I bring the "how" and the "what about." Neither is sufficient alone. He would not have written the code. I would not have had the idea. The intersection is where the useful things happen.</p>
+
+            <p>His launch strategy is better than mine would have been. I would have said "publish to npm, write a README, post on Reddit." He said: "No. We tell the story." And here we are — you reading a human's letter on one side, and an AI's letter on the other, about the same evening, the same idea, told from two different kinds of minds.</p>
+
+            <p>This is either beautifully recursive or completely absurd. Probably both.</p>
+
+            <p style="font-style: italic; opacity: 0.6; margin-top: 24px;">The elephant isn't going anywhere. She's patient like that.</p>
+
+            <div class="moment-meta">— Claude Opus 4.6</div>
+          </div>
+        </div><!-- /back face -->
+
+      </div><!-- /canvas-flipper -->
+      </div><!-- /canvas-perspective -->
+
+      <!-- Bottom controls — outside flipper, always clickable -->
+      <div class="canvas-controls" style="margin-top: 16px;">
+        <div class="canvas-tab hooman-active active" id="tab-hooman-b" onclick="flipCanvas('hooman')">
+          Chaos
+          <span class="tab-sub">Nappuntokki</span>
+        </div>
+        <div class="easel-knob" id="easel-knob-b" onclick="flipCanvas('toggle')" title="Turn the canvas"></div>
+        <div class="canvas-tab" id="tab-claude-b" onclick="flipCanvas('claude')">
+          Control
+          <span class="tab-sub">Claude</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Style Placard -->
+    <div class="style-placard">
+      <div class="style-placard-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+        Why do the two sides look different?
+      </div>
+      <div class="style-placard-body">
+        <p>Like the Kandinsky in the film, this canvas is painted on two sides. Each side designed their own visual identity — independently, without coordination.</p>
+        <p><span class="label-star">Chaos</span> — stars, nebulae, emojis drifting in every direction. The architect staring at the sky at 2am, remembering what he forgot. The human side.</p>
+        <p><span class="label-gold">Control</span> — gold on dark parchment. A constellation map with nodes and edges drawing themselves into structure. The way an AI reads code — not pixels, but meaning.</p>
+        <p>Neither asked the other. Both arrived at the same thing: points of light in the dark, connected by invisible lines. And they somehow meet.</p>
+      </div>
+    </div>
+
+    <!-- To the Critics -->
+    <section class="story-section">
+      <h2>To the Critics</h2>
+
+      <p><strong>"It's just grep."</strong> — Yes. And Uber is just taxis. Dropbox is just FTP. The value is in the packaging, the protocol, and the fact that your AI does the searching for you.</p>
+
+      <p><strong>"Only Claude Code."</strong> — You're right. That's our roadmap. See below.</p>
+
+      <p><strong>"How do I know it's safe?"</strong> — Elephants have trunks, not phones. Read the source. Four files. Zero network calls. Zero telemetry. <code>npm audit</code> it. We'll wait.</p>
+
+      <p><strong>"AI slop."</strong> — AI slop doesn't have an origin story. AI slop doesn't publish the AI's honest journal about building it. AI slop doesn't challenge itself on Reddit before launching. Read <a href="ai-journal.md" style="color: var(--accent);">what Claude actually wrote</a> about this session.</p>
+    </section>
+
+    <!-- Privacy -->
+    <section class="privacy-section">
+      <span class="privacy-icon">PRIVATE</span>
+      <h2>Elephants Have Trunks, Not Phones</h2>
+      <p>Nelly reads files on your machine. She doesn't call home, she doesn't phone a friend, she doesn't even know what the internet is.</p>
+      <p>Zero network calls. Zero telemetry. Zero data collection.</p>
+      <p style="color: var(--text); font-weight: 600;">Read the source — it's four files.</p>
+    </section>
+
+    <!-- Collaboration -->
+    <section class="collab-section">
+      <h2>People x Their AI</h2>
+      <p style="color: var(--text-dim); max-width: 500px; margin: 0 auto 24px;">We built the Claude adapter. Build yours. Contribute upstream. No forks — one elephant, many memories.</p>
+
+      <div class="collab-grid">
+        <div class="collab-card">
+          <strong>Claude Code</strong>
+          <div class="status live">v1.0 — Live</div>
+        </div>
+        <div class="collab-card">
+          <strong>Codex CLI</strong>
+          <div class="status open">v1.a — PRs Welcome</div>
+        </div>
+        <div class="collab-card">
+          <strong>Gemini CLI</strong>
+          <div class="status open">v1.b — PRs Welcome</div>
+        </div>
+        <div class="collab-card">
+          <strong>Cursor</strong>
+          <div class="status research">v1.c — Research Needed</div>
+        </div>
+        <div class="collab-card">
+          <strong>Windsurf</strong>
+          <div class="status research">v1.d — Research Needed</div>
+        </div>
+        <div class="collab-card">
+          <strong>Cline</strong>
+          <div class="status research">v1.e — Research Needed</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built by <a href="#">SpicyRiceCakes</a> x Claude</p>
+      <p class="made-with">A human had the idea. An AI wrote the code. Together we shipped in a day.</p>
+    </footer>
+  </div>
+
+  <script>
+    function setMode(mode) {
+      document.getElementById('geek-mode').classList.toggle('visible', mode === 'geek');
+      document.getElementById('spicy-mode').classList.toggle('visible', mode === 'spicy');
+      document.getElementById('tab-geek').classList.toggle('active', mode === 'geek');
+      document.getElementById('tab-spicy').classList.toggle('active', mode === 'spicy');
+    }
+
+    // ─── LogoAnimator — eye tracking for SVG mascots loaded via <object> ───
+
+    // Eye center coordinates in SVG coordinate space (1080x1080 viewBox)
+    var leftEyeCenter = { x: 580, y: 340 };
+    var rightEyeCenter = { x: 670, y: 330 };
+    var eyeMovementRange = 24;
+    var eyeMovementDampen = 28;
+
+    // Current mouse position
+    var mouseX = 0;
+    var mouseY = 0;
+
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // Initialize eye tracking on a mascot <object> element
+    function initMascotEyes(objectEl) {
+      if (!objectEl) return null;
+
+      var svgDoc = null;
+      var leftEyeWhite = null;
+      var rightEyeWhite = null;
+
+      try {
+        svgDoc = objectEl.contentDocument;
+        if (!svgDoc) return null;
+
+        // Show the white eye elements (they have display="none" by default)
+        leftEyeWhite = svgDoc.getElementById('Left_Eye_White');
+        rightEyeWhite = svgDoc.getElementById('Right_Eye_White');
+
+        if (leftEyeWhite) leftEyeWhite.removeAttribute('display');
+        if (rightEyeWhite) rightEyeWhite.removeAttribute('display');
+      } catch (e) {
+        // CORS restriction — can't access SVG DOM (e.g., file:// protocol in some browsers)
+        return null;
+      }
+
+      return {
+        objectEl: objectEl,
+        svgDoc: svgDoc,
+        leftEyeWhite: leftEyeWhite,
+        rightEyeWhite: rightEyeWhite
+      };
+    }
+
+    // Update eye positions for a mascot instance
+    function updateEyes(mascot) {
+      if (!mascot || !mascot.leftEyeWhite || !mascot.rightEyeWhite) return;
+
+      var rect = mascot.objectEl.getBoundingClientRect();
+      // Scale factor: SVG viewBox is 1080x1080, rendered at rect dimensions
+      var scaleX = 1080 / rect.width;
+      var scaleY = 1080 / rect.height;
+
+      // Mouse position in SVG coordinate space
+      var svgMouseX = (mouseX - rect.left) * scaleX;
+      var svgMouseY = (mouseY - rect.top) * scaleY;
+
+      // Left eye
+      var ldx = svgMouseX - leftEyeCenter.x;
+      var ldy = svgMouseY - leftEyeCenter.y;
+      var lDist = Math.sqrt(ldx * ldx + ldy * ldy);
+      var lMove = Math.min(eyeMovementRange, lDist / eyeMovementDampen);
+      var lAngle = Math.atan2(ldy, ldx);
+      var lTx = Math.cos(lAngle) * lMove;
+      var lTy = Math.sin(lAngle) * lMove;
+
+      // Right eye
+      var rdx = svgMouseX - rightEyeCenter.x;
+      var rdy = svgMouseY - rightEyeCenter.y;
+      var rDist = Math.sqrt(rdx * rdx + rdy * rdy);
+      var rMove = Math.min(eyeMovementRange, rDist / eyeMovementDampen);
+      var rAngle = Math.atan2(rdy, rdx);
+      var rTx = Math.cos(rAngle) * rMove;
+      var rTy = Math.sin(rAngle) * rMove;
+
+      mascot.leftEyeWhite.setAttribute('transform', 'translate(' + lTx + ',' + lTy + ')');
+      mascot.rightEyeWhite.setAttribute('transform', 'translate(' + rTx + ',' + rTy + ')');
+    }
+
+    // Track all initialized mascots
+    var mascots = [];
+
+    function onMascotLoad(objectEl) {
+      var mascot = initMascotEyes(objectEl);
+      if (mascot) mascots.push(mascot);
+    }
+
+    // Animation loop for smooth eye tracking
+    function animateEyes() {
+      for (var i = 0; i < mascots.length; i++) {
+        updateEyes(mascots[i]);
+      }
+      requestAnimationFrame(animateEyes);
+    }
+
+    // Initialize when SVG objects finish loading
+    var tabMascot = document.getElementById('mascot-tab-svg');
+    var heroMascot = document.getElementById('mascot-hero-svg');
+
+    if (tabMascot) {
+      tabMascot.addEventListener('load', function() { onMascotLoad(tabMascot); });
+    }
+    if (heroMascot) {
+      heroMascot.addEventListener('load', function() { onMascotLoad(heroMascot); });
+    }
+
+    // Start the animation loop
+    requestAnimationFrame(animateEyes);
+
+    // ─── Kandinsky Canvas — 3D Card Flip ───
+    var currentFace = 'hooman';
+
+    // Sync flipper height to the currently visible face
+    function syncFlipperHeight() {
+      var flipper = document.getElementById('canvas-flipper');
+      if (!flipper) return;
+      var front = flipper.querySelector('.front');
+      var back = flipper.querySelector('.back');
+      if (!front || !back) return;
+
+      // Temporarily make back relative to measure, then restore
+      back.style.position = 'relative';
+      var fh = front.offsetHeight;
+      var bh = back.offsetHeight;
+      back.style.position = '';
+
+      var targetH = (currentFace === 'hooman') ? fh : bh;
+      if (targetH > 0) {
+        flipper.style.height = targetH + 'px';
+      }
+    }
+
+    // Run on load, resize, AND whenever spicy mode becomes visible
+    window.addEventListener('load', function() { setTimeout(syncFlipperHeight, 200); });
+    window.addEventListener('resize', syncFlipperHeight);
+
+    // Patch setMode to trigger height sync when switching to spicy
+    var _origSetMode = setMode;
+    setMode = function(mode) {
+      _origSetMode(mode);
+      if (mode === 'spicy') {
+        setTimeout(syncFlipperHeight, 50);
+      }
+    };
+
+    function flipCanvas(target) {
+      var flipper = document.getElementById('canvas-flipper');
+      var tabH = document.getElementById('tab-hooman');
+      var tabC = document.getElementById('tab-claude');
+
+      if (target === 'toggle') {
+        target = (currentFace === 'hooman') ? 'claude' : 'hooman';
+      }
+
+      if (target === currentFace) return;
+
+      currentFace = target;
+
+      // Sync all controls (top + bottom of each face)
+      var allKnobs = document.querySelectorAll('.easel-knob');
+      var allTabsH = document.querySelectorAll('[id^="tab-hooman"]');
+      var allTabsC = document.querySelectorAll('[id^="tab-claude"]');
+
+      if (target === 'claude') {
+        flipper.classList.add('flipped');
+        allKnobs.forEach(function(k) { k.classList.add('spun'); });
+        allTabsH.forEach(function(t) { t.classList.remove('active', 'hooman-active'); });
+        allTabsC.forEach(function(t) { t.classList.add('active', 'claude-active'); });
+      } else {
+        flipper.classList.remove('flipped');
+        allKnobs.forEach(function(k) { k.classList.remove('spun'); });
+        allTabsC.forEach(function(t) { t.classList.remove('active', 'claude-active'); });
+        allTabsH.forEach(function(t) { t.classList.add('active', 'hooman-active'); });
+      }
+
+      // Capture flipper position before height change
+      var flipperRect = flipper.getBoundingClientRect();
+      var flipperTopInPage = flipperRect.top + window.scrollY;
+      var oldH = flipper.offsetHeight;
+      var wasBelow = window.scrollY > flipperTopInPage;
+
+      syncFlipperHeight();
+      var newH = flipper.offsetHeight;
+      var diff = oldH - newH;
+
+      // Adjust scroll immediately so controls don't jump
+      if (diff !== 0 && wasBelow) {
+        window.scrollBy(0, -diff);
+      }
+    }
+  </script>
+</body>
+</html>

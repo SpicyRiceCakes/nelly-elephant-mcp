@@ -1,0 +1,39 @@
+{
+  "name": "nelly-elephant-mcp",
+  "version": "0.1.0",
+  "description": "An elephant never forgets — and neither should your AI. Search and resume past Claude Code conversations via MCP.",
+  "author": "SpicyRiceCakes",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "nelly-elephant-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "memory",
+    "search",
+    "conversation-history",
+    "claude-code",
+    "ai-memory"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SpicyRiceCakes/nelly-elephant-mcp"
+  }
+}
