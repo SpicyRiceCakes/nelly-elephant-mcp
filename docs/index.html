@@ -986,59 +986,216 @@
       box-shadow: 0 8px 30px var(--accent-glow);
     }
 
-    /* Reddit Mockup */
+    /* ─── Reddit Thread — Dark Mode ─── */
     .reddit-section {
       max-width: 700px;
       margin: 0 auto;
       padding: 40px 24px;
     }
 
-    .reddit-section h2 {
-      text-align: center;
-      margin-bottom: 24px;
-      color: var(--text-dim);
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .reddit-comment {
+    .reddit-post {
       background: var(--reddit-card);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 12px;
-      opacity: 0;
-      animation: fadeIn 0.5s ease forwards;
+      border-radius: 12px;
+      overflow: hidden;
     }
 
-    .reddit-comment:nth-child(2) { animation-delay: 0.2s; }
-    .reddit-comment:nth-child(3) { animation-delay: 0.4s; }
-    .reddit-comment:nth-child(4) { animation-delay: 0.6s; }
-    .reddit-comment:nth-child(5) { animation-delay: 0.8s; }
-    .reddit-comment:nth-child(6) { animation-delay: 1.0s; }
+    /* Post header bar */
+    .reddit-post-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .reddit-sub {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .reddit-post-header .dot { opacity: 0.3; }
+
+    /* Post title */
+    .reddit-post-title {
+      padding: 12px 16px 8px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* Post meta bar */
+    .reddit-post-meta {
+      padding: 4px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .reddit-post-meta .vote-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 20px;
+      padding: 4px 10px;
+    }
+
+    .reddit-post-meta .vote-arrow {
+      font-size: 14px;
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    .reddit-post-meta .vote-count {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .reddit-post-meta .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    /* Comments area */
+    .reddit-comments {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .reddit-sort {
+      padding: 10px 0;
+      font-size: 12px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reddit-sort .sort-active {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    /* Individual comment */
+    .reddit-comment {
+      display: flex;
+      gap: 0;
+      margin-top: 12px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reddit-comment.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Thread line on the left */
+    .reddit-thread-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 24px;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+
+    .reddit-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .reddit-avatar.op {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .reddit-avatar.positive-av {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .reddit-vline {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 4px;
+      border-radius: 1px;
+      min-height: 12px;
+    }
+
+    /* Comment body */
+    .reddit-comment-body {
+      flex: 1;
+      padding-left: 10px;
+    }
+
+    .reddit-comment-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 4px;
     }
 
     .reddit-user {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .reddit-user.op-user {
+      color: var(--accent);
+    }
+
+    .reddit-comment-header .time-ago {
+      color: var(--text-dim);
+      opacity: 0.5;
+    }
+
+    .reddit-text {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* Comment action bar */
+    .reddit-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 6px;
       font-size: 12px;
-      color: var(--blue);
-      margin-bottom: 6px;
-      font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+      color: var(--text-dim);
+      opacity: 0.4;
     }
 
-    .reddit-text { font-size: 14px; color: var(--text-dim); }
-    .reddit-votes { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
-
-    .reddit-comment.positive { border-left: 3px solid var(--green); }
-    .reddit-comment.negative { border-left: 3px solid var(--reddit-orange); }
-    .reddit-comment.highlight {
-      border-left: 3px solid var(--accent);
-      background: rgba(232, 93, 58, 0.1);
+    .reddit-actions .vote-inline {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
+
+    .reddit-actions .act { cursor: default; }
 
     /* Origin Story Section Header */
     .origin-header {
@@ -1495,43 +1652,166 @@ Claude: → Run this in your terminal:
     </section>
 
     <!-- Fake Reddit Thread -->
-    <section class="reddit-section">
-      <h2>Meanwhile, on Reddit...</h2>
+    <section class="reddit-section" id="reddit-thread">
+      <div class="reddit-post">
 
-      <div class="reddit-comment negative">
-        <div class="reddit-user">u/actually_a_compiler</div>
-        <div class="reddit-text">So... it's grep with extra steps?</div>
-        <div class="reddit-votes">42 points</div>
-      </div>
+        <!-- Post header -->
+        <div class="reddit-post-header">
+          <span class="reddit-sub">r/ClaudeAI</span>
+          <span class="dot">&middot;</span>
+          <span>Posted by u/SpicyRiceCakes</span>
+          <span class="dot">&middot;</span>
+          <span>2h ago</span>
+        </div>
 
-      <div class="reddit-comment negative">
-        <div class="reddit-user">u/full_stack_skeptic</div>
-        <div class="reddit-text">Cool concept but this only works with Claude Code? Pass. Wake me up when it works with Cursor.</div>
-        <div class="reddit-votes">28 points</div>
-      </div>
+        <!-- Post title -->
+        <div class="reddit-post-title">I built an MCP server that searches your past Claude Code conversations. An elephant never forgets.</div>
 
-      <div class="reddit-comment negative">
-        <div class="reddit-user">u/security_conscious_dev</div>
-        <div class="reddit-text">Why would I install a random npm package that reads all my AI conversations? How do I know you're not exfiltrating data?</div>
-        <div class="reddit-votes">156 points</div>
-      </div>
+        <!-- Post meta bar -->
+        <div class="reddit-post-meta">
+          <div class="vote-pill">
+            <span class="vote-arrow">&uarr;</span>
+            <span class="vote-count">847</span>
+            <span class="vote-arrow">&darr;</span>
+          </div>
+          <span class="action-btn">&#x1F4AC; 6 Comments</span>
+          <span class="action-btn">&#x21AA; Share</span>
+          <span class="action-btn">&middot;&middot;&middot;</span>
+        </div>
 
-      <div class="reddit-comment negative">
-        <div class="reddit-user">u/anti_ai_crusader</div>
-        <div class="reddit-text">AI slop. You used Claude to build a tool for Claude. How meta and how useless.</div>
-        <div class="reddit-votes">89 points</div>
-      </div>
+        <!-- Comments -->
+        <div class="reddit-comments">
+          <div class="reddit-sort">
+            Sort by: <span class="sort-active">Top (Default)</span> &darr;
+          </div>
 
-      <div class="reddit-comment positive">
-        <div class="reddit-user">u/pragmatic_builder</div>
-        <div class="reddit-text">Wait this actually works? I've been looking for something exactly like this. Installed and it found a conversation from 2 weeks ago I completely forgot about.</div>
-        <div class="reddit-votes">312 points</div>
-      </div>
+          <!-- Comment 1 -->
+          <div class="reddit-comment" data-delay="800">
+            <div class="reddit-thread-line">
+              <div class="reddit-avatar">AC</div>
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user">actually_a_compiler</span>
+                <span class="time-ago">&middot; 1h ago</span>
+              </div>
+              <div class="reddit-text">So... it's grep with extra steps?</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 42 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
 
-      <div class="reddit-comment highlight">
-        <div class="reddit-user">u/SpicyRiceCakes</div>
-        <div class="reddit-text">Fair points, all of you. Let me tell you how this actually happened. Scroll down.</div>
-        <div class="reddit-votes">67 points</div>
+          <!-- Comment 2 -->
+          <div class="reddit-comment" data-delay="2000">
+            <div class="reddit-thread-line">
+              <div class="reddit-avatar">FS</div>
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user">full_stack_skeptic</span>
+                <span class="time-ago">&middot; 1h ago</span>
+              </div>
+              <div class="reddit-text">Cool concept but this only works with Claude Code? Pass. Wake me up when it works with Cursor.</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 28 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comment 3 -->
+          <div class="reddit-comment" data-delay="3200">
+            <div class="reddit-thread-line">
+              <div class="reddit-avatar">SD</div>
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user">security_conscious_dev</span>
+                <span class="time-ago">&middot; 58m ago</span>
+              </div>
+              <div class="reddit-text">Why would I install a random npm package that reads all my AI conversations? How do I know you're not exfiltrating data?</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 156 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comment 4 -->
+          <div class="reddit-comment" data-delay="4400">
+            <div class="reddit-thread-line">
+              <div class="reddit-avatar">AA</div>
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user">anti_ai_crusader</span>
+                <span class="time-ago">&middot; 45m ago</span>
+              </div>
+              <div class="reddit-text">AI slop. You used Claude to build a tool for Claude. How meta and how useless.</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 89 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comment 5 — the supporter -->
+          <div class="reddit-comment" data-delay="6000">
+            <div class="reddit-thread-line">
+              <div class="reddit-avatar positive-av">PB</div>
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user">pragmatic_builder</span>
+                <span class="time-ago">&middot; 30m ago</span>
+              </div>
+              <div class="reddit-text">Wait this actually works? I've been looking for something exactly like this. Installed and it found a conversation from 2 weeks ago I completely forgot about.</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 312 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comment 6 — OP reply -->
+          <div class="reddit-comment" data-delay="7500">
+            <div class="reddit-thread-line">
+              <div class="reddit-avatar op">SR</div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user op-user">SpicyRiceCakes</span>
+                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
+                <span class="time-ago">&middot; 12m ago</span>
+              </div>
+              <div class="reddit-text">Fair points, all of you. Let me tell you how this actually happened. Scroll down.</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 67 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
@@ -2083,6 +2363,38 @@ Claude: → Run this in your terminal:
         setTimeout(syncFlipperHeight, 50);
       }
     };
+
+    // ─── Reddit comments — staggered choreography ───
+    var redditTriggered = false;
+
+    function triggerRedditComments() {
+      if (redditTriggered) return;
+      redditTriggered = true;
+      var comments = document.querySelectorAll('.reddit-comment');
+      comments.forEach(function(c) {
+        var delay = parseInt(c.getAttribute('data-delay') || '0');
+        setTimeout(function() {
+          c.classList.add('visible');
+        }, delay);
+      });
+    }
+
+    // Trigger when the reddit section scrolls into view
+    if ('IntersectionObserver' in window) {
+      var redditObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            triggerRedditComments();
+            redditObs.disconnect();
+          }
+        });
+      }, { threshold: 0.2 });
+
+      window.addEventListener('load', function() {
+        var redditSection = document.getElementById('reddit-thread');
+        if (redditSection) redditObs.observe(redditSection);
+      });
+    }
 
     function flipCanvas(target) {
       var flipper = document.getElementById('canvas-flipper');
