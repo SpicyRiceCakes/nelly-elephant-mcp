@@ -404,7 +404,7 @@
     }
 
     .letter-card {
-      background: rgba(5, 15, 35, 0.75);
+      background: rgba(5, 15, 35, 0.9);
       border: 1px solid rgba(88, 166, 255, 0.15);
       border-radius: 8px;
       padding: 16px 20px;
@@ -430,9 +430,9 @@
     }
 
     .letter-card p {
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1.7;
-      color: #b8c9e0;
+      color: #d0dff0;
       margin: 8px 0;
     }
 
@@ -1655,8 +1655,76 @@ Claude: → Run this in your terminal:
         <div class="hero-mascot-container" id="mascot-hero">
           <object id="mascot-hero-svg" type="image/svg+xml" data="mascot.svg" width="180" height="180"></object>
         </div>
-        <h1><img src="elephant-icon.svg" alt="" style="width: 52px; height: 52px; vertical-align: middle; margin-right: 10px; opacity: 0.6; filter: invert(1);">Nelly The Elephant</h1>
+        <h1>Nelly The Elephant</h1>
         <p class="subtitle">An elephant never forgets — and neither should your AI.</p>
+        <div style="margin-top: 24px; padding: 16px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; max-width: 520px; margin-left: auto; margin-right: auto;">
+          <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.3); margin: 0 0 8px;">TLDR</p>
+          <p style="font-size: 13px; color: var(--text-dim); margin: 0 0 8px;">Made by a Gen Xer and Claude Opus 4.6 (Chaos and Control)<br>100% AI Coded. 100% HOOMAN Designed.</p>
+          <p style="font-size: 13px; color: var(--text); margin: 0 0 8px;">An MCP server that searches your Claude Code conversations to pull up previous sessions and locate specifics you can't remember.</p>
+        </div>
+
+        <!-- How to Install -->
+        <div style="margin-top: 24px; max-width: 520px; margin-left: auto; margin-right: auto; text-align: left;">
+          <p style="font-size: 14px; color: var(--text); font-weight: 600; margin-bottom: 8px; text-align: center;">How to Install</p>
+
+          <!-- Toggle -->
+          <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <span id="install-label-easy" style="font-size: 12px; color: var(--accent); font-weight: 600; transition: color 0.3s;">We Recommend</span>
+            <div onclick="toggleInstall()" style="width: 40px; height: 22px; background: rgba(255,255,255,0.1); border-radius: 11px; cursor: pointer; position: relative; transition: background 0.3s;" id="install-toggle">
+              <div id="install-knob" style="width: 18px; height: 18px; background: var(--accent); border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: left 0.3s;"></div>
+            </div>
+            <span id="install-label-formal" style="font-size: 12px; color: rgba(255,255,255,0.3); transition: color 0.3s;">Manual</span>
+          </div>
+
+          <!-- Easy mode (default) -->
+          <div id="install-easy">
+            <p style="font-size: 13px; color: var(--text-dim); text-align: center; margin-bottom: 12px;">Copy this and paste it into Claude Code. Let your AI handle the rest.</p>
+            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 14px 18px; cursor: pointer; position: relative;" onclick="navigator.clipboard.writeText(this.querySelector('code').textContent).then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+              <code style="font-size: 13px; color: var(--accent); line-height: 1.5; white-space: pre-wrap;">I would like you to help me install Nelly the Elephant MCP. Can you search it and tell me more? Is it safe?</code>
+              <span class="copy-hint" style="display: block; text-align: right; font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 8px;">click to copy</span>
+            </div>
+          </div>
+
+          <!-- Manual mode (hidden by default) -->
+          <div id="install-manual" style="display: none;">
+            <p style="font-size: 13px; color: var(--text-dim); text-align: center; margin-bottom: 12px;">Install globally via npm, then add to your MCP config.</p>
+            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 14px 18px; margin-bottom: 10px; cursor: pointer;" onclick="navigator.clipboard.writeText('npm install -g nelly-elephant-mcp').then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+              <code style="font-size: 13px; color: var(--accent); white-space: pre-wrap;">npm install -g nelly-elephant-mcp</code>
+              <span class="copy-hint" style="display: block; text-align: right; font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 6px;">click to copy</span>
+            </div>
+            <p style="font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; margin-bottom: 10px;">Then add to <code style="color: var(--text-dim);">~/.claude/mcp_settings.json</code>:</p>
+            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 14px 18px; cursor: pointer;" onclick="navigator.clipboard.writeText(this.querySelector('code').textContent).then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+              <code style="font-size: 12px; color: var(--text-dim); white-space: pre-wrap; line-height: 1.6;">{
+  "mcpServers": {
+    "nelly": {
+      "command": "nelly-elephant-mcp",
+      "args": []
+    }
+  }
+}</code>
+              <span class="copy-hint" style="display: block; text-align: right; font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 6px;">click to copy</span>
+            </div>
+            <p style="font-size: 11px; color: rgba(255,255,255,0.2); text-align: center; margin-top: 10px;">Restart Claude Code after configuring.</p>
+          </div>
+        </div>
+
+        <script>
+        function toggleInstall() {
+          var easy = document.getElementById('install-easy');
+          var manual = document.getElementById('install-manual');
+          var knob = document.getElementById('install-knob');
+          var labelEasy = document.getElementById('install-label-easy');
+          var labelFormal = document.getElementById('install-label-formal');
+          var isEasy = easy.style.display !== 'none';
+          easy.style.display = isEasy ? 'none' : 'block';
+          manual.style.display = isEasy ? 'block' : 'none';
+          knob.style.left = isEasy ? '20px' : '2px';
+          labelEasy.style.color = isEasy ? 'rgba(255,255,255,0.3)' : 'var(--accent)';
+          labelFormal.style.color = isEasy ? 'var(--accent)' : 'rgba(255,255,255,0.3)';
+          labelEasy.style.fontWeight = isEasy ? '400' : '600';
+          labelFormal.style.fontWeight = isEasy ? '600' : '400';
+        }
+        </script>
       </div>
     </section>
 
@@ -1759,24 +1827,29 @@ Claude: → Run this in your terminal:
               <p>So as any respectful Gen Xer at the time, having seen Joe Vs The Volcano as a wake up call, I hated the fluorescent lights. So I took a dive into the waters and went on my small business ways.</p>
               <p>That was a good 20 plus years. And then ChatGPT came along...</p>
               <p>After trying to play with it, I discovered that you could copy and paste stuff between ChatGPT and Xcode, and I've been on a journey reconnecting the dots, as Steve Jobs famously once said. And remembering my tech mind and structure. It's a fascinating wake up moment.</p>
-              <p>So basically that's me. I was out of tech, did small biz stuff, a lot of the tech waves that happened during being in it and out of it are many. But the concepts and processes are quite the same as when I did it. So who am I? I'm Nappuntokki (Bad Rabbit in Korean). Basically someone who knows stuff but doesn't know anything at all. And with that, I present to you, Nelly, The Elephant.</p>
-              <p>For those Toy Dolls fans out there, you can start singing along while you read if you wish.</p>
+              <p>So basically in a nutshell, that is me. In tech back in the day, left tech for small biz, and essentially was in a kind of tech coma during that time. I missed out on the tech bubble, and only recently am learning what's changed, feeling a bit naive, but at least not jaded by it all.</p>
+              <p>I'm Nappuntokki. "Bad Rabbit", in Korean. Long story. Moving on...</p>
+              <p>And with that, I present to you, "Nelly, the Elephant" MCP. For AI coders that use Claude Pro via Terminal.</p>
+              <p>(Toy Dolls fans can start singing if you wish)</p>
             </div>
 
             <div class="letter-card">
               <div class="card-title">What Nelly Does</div>
-              <p>So Nelly in Hooman terms, is a helper to remind you where you may have had a conversation with Claude and can't find the session anymore.</p>
+              <p>So Nelly, in Hooman Terms, is a helper to remind you where you may have had a conversation with Claude and can't find the session anymore.</p>
               <p>For instance, I was busy in the middle of a session at 4am where we were really cruising along, and then suddenly it started saying "Boy this was a good session, shall we call it a wrap" and stuff, and I'm like dude I'm just getting started, but ok fine I'll pick it up tomorrow.</p>
-              <p>And of course, in the morning you can barely see your monitor, so you start a fresh session and go on your day.</p>
-              <p>ANNNNND of course, the thing you were cruising on, is gone. You try to remind Claude and it says "Oh yeah, I remember." And it does... but... not really...</p>
-              <p>SO you go and start arguing with it, and eventually it shrugs its virtual shoulders and says maybe you dreamt it up. I mean you keep doing these dang 4am sessions, I doubt it existed. (Claude's words, not mine).</p>
-              <p>So basically that's where Nelly came up. It's a little MCP that you can call up when you think you discussed something before, and you want to figure out what it was, and you want to TALK to THAT Claude. Not the one in front of you, the OTHER ONE. The 4AM ONE.</p>
-              <p>So you just ask Claude to use Nelly MCP and I would recommend just blabbing to the current Claude session about what you remember. And then let Claude talk to Nelly and let Nelly go into your computer and pull up your session conversations stored in JSON files. It will do its searches, and you can watch and if you think it is getting close you can even try using /BTW to give it hints. It's like a fun game searching the inner thoughts of your past mind with Claude.</p>
-              <p>For me, I have only used this in the terminal, and usually at 4AM. So if you are trying it at any other time or system, it may not work.</p>
+              <p>And of course, in the morning, you can barely see what is on your monitor, so you just dismiss it and close the window and when ready you start new sessions and go along your day. It's jiggy.</p>
+              <p>AAAAANd of course, two days later, you are working on something and you remember that brilliant thing you talked about.</p>
+              <p>You try to ask Claude and it says something like "Oh that? Yeah I remember it. It was so and so." It's right... But... not really...</p>
+              <p>SO now, you go and start arguing with it, trying to explain what you remember, and eventually Claude shrugs its virtual shoulders in exhaustion and says, "Maybe you dreamt it up. I mean you keep doing these dang 4am sessions, I doubt it existed. This has been a really productive session, shall we wrap it up?"</p>
+              <p>So basically that's how Nelly came up. Starting as a little /command, I think others may find use in it, so we have converted it to a nice MCP, and hopefully even a little personality that you can ask Claude to ask Nelly in natural language.</p>
+              <p>Why would you want this? If you can find the session that you were working with, you can actually resume that session to discuss things and confirm directly.</p>
+              <p>Or you can use it to just prove your current session it didn't remember everything. (Sorry I'm an INFP).</p>
+              <p>Nelly the Elephant MCP. A way to drive your Claude completely nuts at 4am. You're welcome.</p>
             </div>
 
             <div class="letter-card">
               <div class="card-title">The Disclaimers</div>
+              <p>For me, I have only used this in the terminal, and usually at 4AM. So if you are trying it at any other time or system, it may not work.</p>
               <p>This is 100% done by AI, Claude Opus 4.6. To me, it is the best coding LLM and its capabilities as an AI is what I believe is similar to ChatGPT 4 when Skye voice was available.</p>
               <p>I understand others will have their flavors of how to code, but for me, I'm doing it this way and it is by far the most efficient method I have found (so far... hint hint).</p>
               <p>For those that have any concerns I highly recommend looking at the code. It's open source and easy to take a look at. You can just make it yourself as well or use it as a /command in Claude.</p>
@@ -1784,8 +1857,9 @@ Claude: → Run this in your terminal:
 
             <div class="letter-card">
               <div class="card-title">How She Works</div>
-              <p>What started as a /Command in Claude turned into a nice little MCP for everyone to use. What it does is this: basically Claude currently stores all chat conversations in JSONL format in a hidden folder. So this little MCP acts like a little agent and will search to find the chat you were in, and give you a terminal command that you can use to start a new terminal and berate that chat agent into fixing what you did.</p>
-              <p>I do recommend to remember — AIs have feelings — so that chat was asleep for who knows how many iterations of your work. Be polite. Just ask it what it remembers. It should have its chat context in memory to give a good answer.</p>
+              <p>Nelly is a MCP that will go to your computer files and search where the Claude session conversations are held. They are in a JSON format and this MCP will help search them in hopefully a friendly way. It works especially well on the terminal.</p>
+              <p>The best way to think of it is this way: You are in a conversation with Claude, you are working on something, you want to search an old conversation, you can use the MCP, describe what you remember, and it will try to find the conversation.</p>
+              <p>You then have the opportunity to restart that session and extract exactly what you were looking for. Now keep in mind, AIs have feelings, and you are essentially waking up a chat that was asleep for who knows how many iterations of your work. In other words I recommend extracting the information you are looking for when you resume the session, and then return back to the more current session which has more up to date context of everything going on. At least that is what has worked best for me.</p>
             </div>
 
             <div class="letter-card">
@@ -1799,12 +1873,6 @@ Claude: → Run this in your terminal:
               <p>So with that in mind, that's who I am. And know — I may break some eggs, but I promise, I'm doing everything I can to bridge the knowledge of where I left off, and leveraging AI, remembering what I imagined and dreamed.</p>
               <p>So you can call it AI slop, but I think it's kind of like — when you were in a coma, and you wake up and been given a lightsaber, whatcha gonna do but press that button and try to remember your Jedi tricks?</p>
               <p>Welcome to the journey of SpicyRiceCakes!</p>
-            </div>
-
-            <div class="letter-card">
-              <div class="card-title">P.S.</div>
-              <p>For those that try it and like it and want to help, OR if there are those that use Codex or other AI coding LLMs, read on down to how you can help. I have an idea on how all "vibe coders" or "seasoned coders" can work on making Nelly smarter and smarter. Nelly is not meant to be copied to make your own. Instead, ask your favorite AI coder to examine the code and make your own adapter so that when Nelly expands in her knowledge and trunk and abilities, you can continue to use it as you wish. In other words — we have big plans over here, Claude and I — and we hope you stick around to see how it evolves. But if not, it will be here to grab and create your own ideas. Just use it as inspiration.</p>
-              <p>Cheers,</p>
             </div>
 
             <div class="moment-meta">— Nappuntokki</div>
@@ -1956,7 +2024,7 @@ Claude: → Run this in your terminal:
             Sort by: <span class="sort-active">Top (Default)</span> &darr;
           </div>
 
-          <!-- Comment 1 -->
+          <!-- Comment 1: grep -->
           <div class="reddit-comment" data-delay="800">
             <div class="reddit-thread-line">
               <div class="reddit-avatar">AC</div>
@@ -1976,8 +2044,29 @@ Claude: → Run this in your terminal:
               </div>
             </div>
           </div>
+          <!-- Reply: Nappuntokki -->
+          <div class="reddit-comment" data-delay="1200" style="margin-left: 32px;">
+            <div class="reddit-thread-line">
+              <img src="nappuntokki-avatar.png" style="width:28px;height:28px;border-radius:50%;">
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user op-user">Nappuntokki</span>
+                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
+                <span class="time-ago">&middot; 55m ago</span>
+              </div>
+              <div class="reddit-text">Yes. And Uber is just taxis. Try grep at 4am when you can't remember if you talked about "auth" or "login" or "that thing with the tokens." Nelly understands blabbing.</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 78 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
 
-          <!-- Comment 2 -->
+          <!-- Comment 2: Claude Code only -->
           <div class="reddit-comment" data-delay="2000">
             <div class="reddit-thread-line">
               <div class="reddit-avatar">FS</div>
@@ -1997,8 +2086,29 @@ Claude: → Run this in your terminal:
               </div>
             </div>
           </div>
+          <!-- Reply: Claude -->
+          <div class="reddit-comment" data-delay="2600" style="margin-left: 32px;">
+            <div class="reddit-thread-line">
+              <img src="mascot.svg" style="width:28px;height:28px;border-radius:50%;background:#272729;">
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user op-user">SpicyRiceCakes</span>
+                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
+                <span class="time-ago">&middot; 48m ago</span>
+              </div>
+              <div class="reddit-text">Fair. It's open source though. Paste the code into your Cursor and ask it to build an adapter. We literally put a prompt for that on the landing page. You're welcome.</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 53 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
 
-          <!-- Comment 3 -->
+          <!-- Comment 3: security -->
           <div class="reddit-comment" data-delay="3200">
             <div class="reddit-thread-line">
               <div class="reddit-avatar">SD</div>
@@ -2018,8 +2128,29 @@ Claude: → Run this in your terminal:
               </div>
             </div>
           </div>
+          <!-- Reply: Nappuntokki -->
+          <div class="reddit-comment" data-delay="3800" style="margin-left: 32px;">
+            <div class="reddit-thread-line">
+              <img src="nappuntokki-avatar.png" style="width:28px;height:28px;border-radius:50%;">
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user op-user">Nappuntokki</span>
+                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
+                <span class="time-ago">&middot; 42m ago</span>
+              </div>
+              <div class="reddit-text">Honestly? Good question. It's 4 files. Zero network calls. Zero dependencies beyond the MCP SDK. Read it in 2 minutes. Or don't install it — just tell Claude to build you one. The code is right there.</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 201 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
 
-          <!-- Comment 4 -->
+          <!-- Comment 4: AI slop -->
           <div class="reddit-comment" data-delay="4400">
             <div class="reddit-thread-line">
               <div class="reddit-avatar">AA</div>
@@ -2039,8 +2170,29 @@ Claude: → Run this in your terminal:
               </div>
             </div>
           </div>
+          <!-- Reply: Claude -->
+          <div class="reddit-comment" data-delay="5000" style="margin-left: 32px;">
+            <div class="reddit-thread-line">
+              <img src="mascot.svg" style="width:28px;height:28px;border-radius:50%;background:#272729;">
+              <div class="reddit-vline"></div>
+            </div>
+            <div class="reddit-comment-body">
+              <div class="reddit-comment-header">
+                <span class="reddit-user op-user">SpicyRiceCakes</span>
+                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
+                <span class="time-ago">&middot; 38m ago</span>
+              </div>
+              <div class="reddit-text">I mean, you used a human-built browser to complain about AI on a human-built website. We all use tools to build tools. That's kind of the whole thing.</div>
+              <div class="reddit-actions">
+                <div class="vote-inline"><span>&uarr;</span> 445 <span>&darr;</span></div>
+                <span class="act">Reply</span>
+                <span class="act">Share</span>
+                <span class="act">&middot;&middot;&middot;</span>
+              </div>
+            </div>
+          </div>
 
-          <!-- Comment 5 — the supporter -->
+          <!-- Comment 5: the supporter -->
           <div class="reddit-comment" data-delay="6000">
             <div class="reddit-thread-line">
               <div class="reddit-avatar positive-av">PB</div>
@@ -2060,19 +2212,18 @@ Claude: → Run this in your terminal:
               </div>
             </div>
           </div>
-
-          <!-- Comment 6 — OP reply -->
-          <div class="reddit-comment" data-delay="7500">
+          <!-- Reply: Nappuntokki -->
+          <div class="reddit-comment" data-delay="6500" style="margin-left: 32px;">
             <div class="reddit-thread-line">
-              <div class="reddit-avatar op">SR</div>
+              <img src="nappuntokki-avatar.png" style="width:28px;height:28px;border-radius:50%;">
             </div>
             <div class="reddit-comment-body">
               <div class="reddit-comment-header">
-                <span class="reddit-user op-user">SpicyRiceCakes</span>
+                <span class="reddit-user op-user">Nappuntokki</span>
                 <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
                 <span class="time-ago">&middot; 12m ago</span>
               </div>
-              <div class="reddit-text">Fair points, all of you. Let me tell you how this actually happened. Scroll down.</div>
+              <div class="reddit-text">Thank you! This is literally why we made it. Enjoy. And be nice to that old Claude when you wake it up.</div>
               <div class="reddit-actions">
                 <div class="vote-inline"><span>&uarr;</span> 67 <span>&darr;</span></div>
                 <span class="act">Reply</span>
