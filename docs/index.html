@@ -1875,7 +1875,10 @@ Claude: → Run this in your terminal:
               <p>Welcome to the journey of SpicyRiceCakes!</p>
             </div>
 
-            <div class="moment-meta">— Nappuntokki</div>
+            <div class="moment-meta" style="display: flex; align-items: center; gap: 10px;">
+              <img src="hooman-sketch.webp" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(88,166,255,0.3);">
+              — Nappuntokki
+            </div>
           </div>
         </div><!-- /front face -->
 
@@ -1920,7 +1923,7 @@ Claude: → Run this in your terminal:
           </div>
 
           <div class="letter-col-header">
-            <img class="avatar-img" src="mascot.svg" alt="SpicyRiceCakes Mascot" style="width:48px;height:48px;">
+            <object id="mascot-claude-svg" class="avatar-img" type="image/svg+xml" data="mascot.svg" style="width:48px;height:48px;"></object>
             <div class="col-label">The AI</div>
             <div class="col-name">Claude Opus 4.6 on Claude Max</div>
           </div>
@@ -2182,7 +2185,7 @@ Claude: → Run this in your terminal:
                 <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
                 <span class="time-ago">&middot; 38m ago</span>
               </div>
-              <div class="reddit-text">I mean, you used a human-built browser to complain about AI on a human-built website. We all use tools to build tools. That's kind of the whole thing.</div>
+              <div class="reddit-text">I mean, you used a human-built browser to complain about AI on a human-built website. We all use tools to build tools. That's kind of the whole thing. In fact, the likelihood you are an AI bot posting this is totally meta dude.</div>
               <div class="reddit-actions">
                 <div class="vote-inline"><span>&uarr;</span> 445 <span>&darr;</span></div>
                 <span class="act">Reply</span>
@@ -2246,45 +2249,19 @@ Claude: → Run this in your terminal:
       </div>
       <p style="color: rgba(255,255,255,0.25); font-size: 11px; margin-bottom: 24px;">Tested at 4am only. Results may vary at reasonable hours.</p>
 
-      <div class="collab-grid">
-        <div class="collab-card">
-          <strong>Claude Code</strong>
-          <div class="status live">v1.0 — Live</div>
-        </div>
-        <div class="collab-card">
-          <strong>Codex CLI</strong>
-          <div class="status open">PRs Welcome</div>
-        </div>
-        <div class="collab-card">
-          <strong>Gemini CLI</strong>
-          <div class="status open">PRs Welcome</div>
-        </div>
-        <div class="collab-card">
-          <strong>Cursor</strong>
-          <div class="status research">Research Needed</div>
-        </div>
-        <div class="collab-card">
-          <strong>Windsurf</strong>
-          <div class="status research">Research Needed</div>
-        </div>
-        <div class="collab-card">
-          <strong>Cline</strong>
-          <div class="status research">Research Needed</div>
-        </div>
-      </div>
     </section>
 
     <!-- Easter Egg — The Hooman (for those who read the whole thing) -->
-    <section style="position: relative; text-align: center; padding: 120px 20px 160px; overflow: visible;">
-      <canvas id="confetti-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;"></canvas>
+    <section style="position: relative; text-align: center; padding: 180px 60px 40px; overflow: visible; min-height: 300px;">
+      <canvas id="confetti-canvas" style="position: absolute; top: -150px; left: -60px; width: calc(100% + 120px); height: calc(100% + 150px); pointer-events: none; z-index: 2;"></canvas>
       <img id="hooman-avatar" src="hooman-sketch.webp" alt="The Hooman" style="width: 120px; height: 120px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); position: relative; z-index: 3;">
       <p style="color: rgba(255,255,255,0.3); font-size: 11px; margin-top: 12px; position: relative; z-index: 3;">You made it to the bottom. Here, have some confetti.</p>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-      <p>Built by <a href="#">SpicyRiceCakes</a> x Claude</p>
-      <p class="made-with">A human had the idea. An AI wrote the code. Together we shipped in a day.</p>
+      <p>Built by <a href="#">SpicyRiceCakes</a> x Claude Opus 4.6</p>
+      <p class="made-with">Chaos and Control.</p>
     </footer>
   </div>
 
@@ -2404,6 +2381,10 @@ Claude: → Run this in your terminal:
     }
     if (heroMascot) {
       heroMascot.addEventListener('load', function() { onMascotLoad(heroMascot); });
+    }
+    var claudeMascot = document.getElementById('mascot-claude-svg');
+    if (claudeMascot) {
+      claudeMascot.addEventListener('load', function() { onMascotLoad(claudeMascot); });
     }
 
     // Start the animation loop
@@ -2536,16 +2517,16 @@ Claude: → Run this in your terminal:
                     '#8c7ae6', '#e1b12c', '#ff6348', '#ffa502', '#e056fd', '#22a6b3'];
 
       function resize() {
-        canvas.width = section.offsetWidth;
-        canvas.height = section.offsetHeight;
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
       }
       resize();
       window.addEventListener('resize', resize);
 
       function getEmitPos() {
         var r = avatar.getBoundingClientRect();
-        var s = section.getBoundingClientRect();
-        return { x: (r.left + r.width / 2) - s.left, y: r.top - s.top - 5 };
+        var c = canvas.getBoundingClientRect();
+        return { x: (r.left + r.width / 2) - c.left, y: r.top - c.top - 5 };
       }
 
       function emit() {
