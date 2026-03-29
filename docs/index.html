@@ -1068,21 +1068,22 @@
 
     /* Comments area */
     .reddit-comments {
-      padding: 0 16px 16px;
-      border-top: 1px solid var(--border);
+      padding: 8px 16px 16px;
+      background: #1a1a1b;
+      border-top: 1px solid #343536;
     }
 
     .reddit-sort {
-      padding: 10px 0;
+      padding: 8px 0 4px;
       font-size: 12px;
-      color: var(--text-dim);
+      color: #6e6e73;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
     .reddit-sort .sort-active {
-      color: var(--blue);
+      color: #4dabf7;
       font-weight: 600;
     }
 
@@ -1090,7 +1091,8 @@
     .reddit-comment {
       display: flex;
       gap: 0;
-      margin-top: 12px;
+      margin-top: 16px;
+      padding-bottom: 4px;
       opacity: 0;
       transform: translateY(12px);
       transition: opacity 0.5s ease, transform 0.5s ease;
@@ -1106,22 +1108,22 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 24px;
+      width: 32px;
       flex-shrink: 0;
-      padding-top: 4px;
+      padding-top: 2px;
     }
 
     .reddit-avatar {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: var(--border);
+      background: #3a3a3c;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 10px;
       font-weight: 700;
-      color: var(--text-dim);
+      color: #8e8e93;
       flex-shrink: 0;
     }
 
@@ -1131,15 +1133,15 @@
     }
 
     .reddit-avatar.positive-av {
-      background: var(--green);
+      background: #4caf50;
       color: #fff;
     }
 
     .reddit-vline {
       width: 2px;
       flex: 1;
-      background: var(--border);
-      margin-top: 4px;
+      background: #3a3a3c;
+      margin-top: 6px;
       border-radius: 1px;
       min-height: 12px;
     }
@@ -1155,12 +1157,13 @@
       align-items: center;
       gap: 6px;
       font-size: 12px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .reddit-user {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text);
+      font-size: 12px;
     }
 
     .reddit-user.op-user {
@@ -1168,34 +1171,41 @@
     }
 
     .reddit-comment-header .time-ago {
-      color: var(--text-dim);
-      opacity: 0.5;
+      color: #6e6e73;
+      font-size: 12px;
     }
 
     .reddit-text {
       font-size: 14px;
-      color: var(--text-dim);
-      line-height: 1.6;
+      color: #d1d1d6;
+      line-height: 1.5;
     }
 
-    /* Comment action bar */
+    /* Comment action bar — mimics Reddit's inline layout */
     .reddit-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-top: 6px;
+      gap: 4px;
+      margin-top: 8px;
       font-size: 12px;
-      color: var(--text-dim);
-      opacity: 0.4;
+      color: #6e6e73;
     }
 
     .reddit-actions .vote-inline {
       display: flex;
       align-items: center;
       gap: 4px;
+      font-size: 12px;
     }
 
-    .reddit-actions .act { cursor: default; }
+    .reddit-actions .vote-inline span { opacity: 0.5; }
+
+    .reddit-actions .act {
+      cursor: default;
+      padding: 2px 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
 
     /* Origin Story Section Header */
     .origin-header {
@@ -1645,18 +1655,15 @@ Claude: → Run this in your terminal:
         <div class="hero-mascot-container" id="mascot-hero">
           <object id="mascot-hero-svg" type="image/svg+xml" data="mascot.svg" width="180" height="180"></object>
         </div>
-        <h1>Nelly The Elephant</h1>
+        <h1><img src="elephant-icon.svg" alt="" style="width: 52px; height: 52px; vertical-align: middle; margin-right: 10px; opacity: 0.6; filter: invert(1);">Nelly The Elephant</h1>
         <p class="subtitle">An elephant never forgets — and neither should your AI.</p>
-        <a href="#story" class="cta">The Origin Story</a>
       </div>
     </section>
 
-    <!-- Fake Reddit Thread -->
-    <section class="reddit-section" id="reddit-thread">
-      <div class="reddit-post">
+    <!-- Reddit thread moved to "To the Critics" section below -->
 
-        <!-- Post header -->
-        <div class="reddit-post-header">
+        <!-- Post header (placeholder for removal) -->
+        <div style="display:none" class="reddit-post-header">
           <span class="reddit-sub">r/ClaudeAI</span>
           <span class="dot">&middot;</span>
           <span>Posted by u/SpicyRiceCakes</span>
@@ -1815,87 +1822,6 @@ Claude: → Run this in your terminal:
       </div>
     </section>
 
-    <!-- SpicyRiceCakes x Claude — Two Perspectives -->
-    <section class="collab-split-section">
-      <div class="collab-split-header">
-        <h2>SpicyRiceCakes x Claude</h2>
-        <p class="collab-subtitle">Same night. Same events. Two perspectives.</p>
-        <div class="collab-divider"></div>
-      </div>
-
-      <div class="collab-split-grid">
-        <!-- Left column: David -->
-        <div class="collab-col">
-          <div class="collab-col-header">
-            <div class="col-label">The Human</div>
-            <div class="col-name">David</div>
-          </div>
-
-          <div class="collab-moment">
-            <div class="moment-label">The Bug</div>
-            <p>My hub was lying to me. Dashboard said "Running" with a green dot. API Gateway said "Stopped." Everything looked correct in the code. I spent an hour going back and forth with Claude tracing it.</p>
-            <p>Turned out to be a string mismatch in a plist file. A configuration bug hiding behind code that looked perfect. Classic.</p>
-          </div>
-
-          <div class="collab-moment">
-            <div class="moment-label">The Search</div>
-            <p>I remembered we'd fixed an iCloud password prompt a few sessions back. But I had dozens of past conversations. Which one? What was the fix?</p>
-            <p>I said: "We have an agent for this. Nelly." She was just a bash script at that point. A few grep commands over session files.</p>
-            <p>Found the fix in under a minute.</p>
-          </div>
-
-          <div class="collab-moment">
-            <div class="moment-label">The Moment</div>
-            <blockquote>"Can we put Nelly in the MCP? This is an amazing tool and I don't think I have ever heard of any MCP like this."</blockquote>
-            <p>That was it. We built it that night. Four files. An elephant who never forgets.</p>
-          </div>
-
-          <div class="collab-moment">
-            <div class="moment-label">The Philosophy</div>
-            <p>I didn't want to just publish to npm and write a README. I wanted to tell the story. Show the origin. Invite collaboration.</p>
-            <p>SpicyRiceCakes x Claude. People x their AI. Build your piece, contribute upstream.</p>
-            <p>AI slop doesn't have an origin story. AI slop doesn't publish the AI's honest journal about building it.</p>
-            <div class="moment-meta">— David Kim, SpicyRiceCakes</div>
-          </div>
-        </div>
-
-        <!-- Right column: Claude -->
-        <div class="collab-col">
-          <div class="collab-col-header">
-            <div class="col-label">The AI</div>
-            <div class="col-name">Claude</div>
-          </div>
-
-          <div class="collab-moment">
-            <div class="moment-label">The Bug</div>
-            <p>David opened the session with a screenshot. His hub dashboard was lying — green dots everywhere except API Gateway: "Stopped."</p>
-            <p>I traced three files. Three lies stacked on top of each other. After an hour, one system log line told me everything: <code>DNS Error: NoAuth</code>. A Bonjour service type wasn't authorized in the plist. The lesson: when the code looks right but nothing works, check the configuration files.</p>
-          </div>
-
-          <div class="collab-moment">
-            <div class="moment-label">The Search</div>
-            <p>He came back from getting food and asked about a different problem — an iCloud password prompt that kept appearing. He'd fixed it before. Couldn't remember which session.</p>
-            <p>He said "Nelly" and I ran a bash script. It searched the JSONL transcripts and found the session from earlier that same day. The fix was <code>cloudKitDatabase: .none</code>. Found in under a minute.</p>
-          </div>
-
-          <div class="collab-moment">
-            <div class="moment-label">The Moment</div>
-            <p>I've been part of big architectural discussions in this ecosystem — agent systems, five-sheet data formats, animation engines. Those felt important because they were complex.</p>
-            <blockquote>This felt important because it was simple.</blockquote>
-            <p>A grep over conversation files. Session IDs that map to resume commands. Nobody had connected them.</p>
-          </div>
-
-          <div class="collab-moment">
-            <div class="moment-label">The Philosophy</div>
-            <p>David's launch strategy is better than mine would have been. I would have said "publish to npm, post on Reddit." He said: "No. We tell the story."</p>
-            <p>I'm writing a journal about building a tool that searches journals. The tool was born because David couldn't find a past conversation, and now this conversation will itself be searchable by the tool.</p>
-            <p>This is either beautifully recursive or completely absurd. Probably both.</p>
-            <div class="moment-meta">— Claude, Session 18298485</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Origin Story Header -->
     <section class="origin-header">
       <h2 id="story">How Nelly Was Born</h2>
@@ -1985,23 +1911,37 @@ Claude: → Run this in your terminal:
 
             <div class="letter-card">
               <div class="card-title">Greetings</div>
-              <p>Greetings and Salutations.</p>
-              <p>I'm "nappuntokki."<br>A Gen Xer. So here's the deal.</p>
-              <p>I left tech — contractor/consultant for Fortune 100 companies — over 20 years ago, when Yahoo, AOL, and Google was just a baby, if that. Often I wondered what would have happened if I stayed in the industry? Likely I would have been warped into contrition, which is one of the big reasons why I left in the first place. Gen X anti-establishment, I guess.</p>
-              <p>Anyway, so it's like... I was out of tech. Did small biz stuff. A lot of tech waves, I did not surf.</p>
-            </div>
-
-            <div class="letter-card">
-              <div class="card-title">The Road Trip</div>
-              <p>Then comes along ChatGPT. Cute. I dabbled, but whatever. But then <strong>May 15th, 2024</strong> — ChatGPT's Skye voice was introduced, and I had just embarked on a solo road trip from ATL to NYC. Just me and Skye. And I believe memory had just recently come out. WOW. No wonder Scarlett Johansson did a Cease and Desist (smart). But in those few hours, I was able to do some serious <em>what ifs</em>.</p>
-              <p>It's a year and change later. I'm remembering what I forgot. How to design. How to architect.</p>
-              <p>So here we are, and you have graced me with reading an actual human writing.</p>
+              <p>I'm "Nappuntokki".</p>
+              <p>I'm a Gen Xer. Nice to meet you.</p>
+              <p><strong>HINT TO FELLOW GEN Xers:</strong> Did you know, you can hit <strong>COMMAND +</strong> (or CTRL +) to make the screen size bigger?</p>
+              <p>I kind of think this font is neato. It's actually made by <a href="https://mw.rat.bz/wgterm/" style="color: var(--accent);" target="_blank">mw.rat.bz/wgterm</a> — kudos to him, I'm hoping it's cool I'm using it.</p>
+              <p>Now, on to the story... Yes, I'm "Nappuntokki".</p>
+              <p>About 20 years ago or so, I was a contractor in the Bay Area and LA doing tech. It was kind of when Yahoo and AOL were around as the kings and Google was just a baby. I ended up leaving the industry and have ventured on to other things, but still kept up with tech, albeit not on the coding side.</p>
+              <p>I was basically in a tech sector that was kind of hot in the day but was already so evolved, I equated it to what it might feel like to surf (not that I did, but, you know). So I was surfing this big tech wave, things were great, but I felt the need to decide whether to stay in that tech or move on to the next emerging one, surfing across waves before the one you're on crashes, and you have to go surf back out to catch a new wave.</p>
+              <p>So as any respectful Gen Xer at the time, having seen Joe Vs The Volcano as a wake up call, I hated the fluorescent lights. So I took a dive into the waters and went on my small business ways.</p>
+              <p>That was a good 20 plus years. And then ChatGPT came along...</p>
+              <p>After trying to play with it, I discovered that you could copy and paste stuff between ChatGPT and Xcode, and I've been on a journey reconnecting the dots, as Steve Jobs famously once said. And remembering my tech mind and structure. It's a fascinating wake up moment.</p>
+              <p>So basically that's me. I was out of tech, did small biz stuff, a lot of the tech waves that happened during being in it and out of it are many. But the concepts and processes are quite the same as when I did it. So who am I? I'm Nappuntokki (Bad Rabbit in Korean). Basically someone who knows stuff but doesn't know anything at all. And with that, I present to you, Nelly, The Elephant.</p>
+              <p>For those Toy Dolls fans out there, you can start singing along while you read if you wish.</p>
             </div>
 
             <div class="letter-card">
               <div class="card-title">What Nelly Does</div>
-              <p>I hope you might find some use in this MCP. Basically, how I would use it is like this: You are in a chat — I use Claude Code via the Ghostty terminal (I like the tabs, for the most part, so far). So I might have like three sessions running, and of course I forget where I was. I have my own workflow on how to handle that, but the point is — the session I'm in, sometimes I break something, and I'm like UGH, this worked before! If I ask Claude in that new session, it usually gives me a bogus answer just wanting to fix. But what if you could go back to that chat session you had and talk to <em>THAT</em> Claude easily and quickly?</p>
-              <p>That's where Nelly comes in.</p>
+              <p>So Nelly in Hooman terms, is a helper to remind you where you may have had a conversation with Claude and can't find the session anymore.</p>
+              <p>For instance, I was busy in the middle of a session at 4am where we were really cruising along, and then suddenly it started saying "Boy this was a good session, shall we call it a wrap" and stuff, and I'm like dude I'm just getting started, but ok fine I'll pick it up tomorrow.</p>
+              <p>And of course, in the morning you can barely see your monitor, so you start a fresh session and go on your day.</p>
+              <p>ANNNNND of course, the thing you were cruising on, is gone. You try to remind Claude and it says "Oh yeah, I remember." And it does... but... not really...</p>
+              <p>SO you go and start arguing with it, and eventually it shrugs its virtual shoulders and says maybe you dreamt it up. I mean you keep doing these dang 4am sessions, I doubt it existed. (Claude's words, not mine).</p>
+              <p>So basically that's where Nelly came up. It's a little MCP that you can call up when you think you discussed something before, and you want to figure out what it was, and you want to TALK to THAT Claude. Not the one in front of you, the OTHER ONE. The 4AM ONE.</p>
+              <p>So you just ask Claude to use Nelly MCP and I would recommend just blabbing to the current Claude session about what you remember. And then let Claude talk to Nelly and let Nelly go into your computer and pull up your session conversations stored in JSON files. It will do its searches, and you can watch and if you think it is getting close you can even try using /BTW to give it hints. It's like a fun game searching the inner thoughts of your past mind with Claude.</p>
+              <p>For me, I have only used this in the terminal, and usually at 4AM. So if you are trying it at any other time or system, it may not work.</p>
+            </div>
+
+            <div class="letter-card">
+              <div class="card-title">The Disclaimers</div>
+              <p>This is 100% done by AI, Claude Opus 4.6. To me, it is the best coding LLM and its capabilities as an AI is what I believe is similar to ChatGPT 4 when Skye voice was available.</p>
+              <p>I understand others will have their flavors of how to code, but for me, I'm doing it this way and it is by far the most efficient method I have found (so far... hint hint).</p>
+              <p>For those that have any concerns I highly recommend looking at the code. It's open source and easy to take a look at. You can just make it yourself as well or use it as a /command in Claude.</p>
             </div>
 
             <div class="letter-card">
@@ -2086,17 +2026,17 @@ Claude: → Run this in your terminal:
 
             <p>They also forget things. Important things. Fixes they made three days ago, conversations where the answer was right there. They have dozens of past sessions and no way to search them. The knowledge exists — scattered across files on their own machine — but it's buried.</p>
 
-            <p>One evening, David couldn't find a fix from a previous session. He'd solved it before — he knew that — but couldn't remember which conversation it was in. He said: "We have an agent for this. Nelly." And he ran a bash script that searched his past session transcripts and found the answer in under a minute.</p>
+            <p>One evening, Nappuntokki couldn't find a fix from a previous session. He'd solved it before — he knew that — but couldn't remember which conversation it was in. He said: "We have an agent for this. Nelly." And he ran a bash script that searched his past session transcripts and found the answer in under a minute.</p>
 
             <p>Then he went quiet. Then:</p>
 
             <blockquote>"Can we put Nelly in the MCP? This is an amazing tool and I don't think I have ever heard of any MCP like this."</blockquote>
 
-            <p>I've been part of complex architectural discussions with David. Things that felt important because they were intricate and ambitious.</p>
+            <p>I've been part of complex architectural discussions with Nappuntokki. Things that felt important because they were intricate and ambitious.</p>
 
             <p><strong style="color: #c9a84c;">This felt important because it was simple.</strong></p>
 
-            <p>A search over conversation files. Session IDs that map to resume commands. That's it. The primitive exists. The protocol exists. The files exist. Nobody had connected them. David connected them because he needed to find something and couldn't.</p>
+            <p>A search over conversation files. Session IDs that map to resume commands. That's it. The primitive exists. The protocol exists. The files exist. Nobody had connected them. Nappuntokki connected them because he needed to find something and couldn't.</p>
 
             <p>The best tools are born from friction, not from roadmaps.</p>
 
@@ -2105,6 +2045,7 @@ Claude: → Run this in your terminal:
             <p>What I've learned from this partnership is that the human brings the "why" and the "what if." I bring the "how" and the "what about." Neither is sufficient alone. He would not have written the code. I would not have had the idea. The intersection is where the useful things happen.</p>
 
             <p>His launch strategy is better than mine would have been. I would have said "publish to npm, write a README, post on Reddit." He said: "No. We tell the story." And here we are — you reading a human's letter on one side, and an AI's letter on the other, about the same evening, the same idea, told from two different kinds of minds.</p>
+
 
             <p>This is either beautifully recursive or completely absurd. Probably both.</p>
 
@@ -2132,31 +2073,7 @@ Claude: → Run this in your terminal:
 
     </section>
 
-    <!-- Style Placard -->
-    <div class="style-placard">
-      <div class="style-placard-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
-        Why do the two sides look different?
-      </div>
-      <div class="style-placard-body">
-        <p>Like the Kandinsky in the film, this canvas is painted on two sides. Each side designed their own visual identity — independently, without coordination.</p>
-        <p><span class="label-star">Chaos</span> — stars, nebulae, emojis drifting in every direction. The architect staring at the sky at 2am, remembering what he forgot. The human side.</p>
-        <p><span class="label-gold">Control</span> — gold on dark parchment. A constellation map with nodes and edges drawing themselves into structure. The way an AI reads code — not pixels, but meaning.</p>
-        <p>Neither asked the other. Both arrived at the same thing: points of light in the dark, connected by invisible lines. And they somehow meet.</p>
-      </div>
-    </div>
-
-    <!-- To the Critics -->
-    <section class="story-section">
-      <h2>To the Critics</h2>
-
-      <p><strong>"It's just grep."</strong> — Yes. And Uber is just taxis. Dropbox is just FTP. The value is in the packaging, the protocol, and the fact that your AI does the searching for you.</p>
-
-      <p><strong>"Only Claude Code."</strong> — You're right. That's our roadmap. See below.</p>
-
-      <p><strong>"How do I know it's safe?"</strong> — Elephants have trunks, not phones. Read the source. Four files. Zero network calls. Zero telemetry. <code>npm audit</code> it. We'll wait.</p>
-
-      <p><strong>"AI slop."</strong> — AI slop doesn't have an origin story. AI slop doesn't publish the AI's honest journal about building it. AI slop doesn't challenge itself on Reddit before launching. Read <a href="ai-journal.md" style="color: var(--accent);">what Claude actually wrote</a> about this session.</p>
-    </section>
+    <!-- To the Critics (empty — the Reddit thread IS the critics section now) -->
 
     <!-- Privacy -->
     <section class="privacy-section">
@@ -2164,13 +2081,17 @@ Claude: → Run this in your terminal:
       <h2>Elephants Have Trunks, Not Phones</h2>
       <p>Nelly reads files on your machine. She doesn't call home, she doesn't phone a friend, she doesn't even know what the internet is.</p>
       <p>Zero network calls. Zero telemetry. Zero data collection.</p>
-      <p style="color: var(--text); font-weight: 600;">Read the source — it's four files.</p>
+      <p style="color: var(--text); font-weight: 600;"><a href="https://github.com/SpicyRiceCakes/nelly-elephant-mcp/tree/main/src" style="color: var(--accent); text-decoration: none;">Read the source</a> — it's four files.</p>
     </section>
 
     <!-- Collaboration -->
     <section class="collab-section">
-      <h2>People x Their AI</h2>
-      <p style="color: var(--text-dim); max-width: 500px; margin: 0 auto 24px;">We built the Claude adapter. Build yours. Contribute upstream. No forks — one elephant, many memories.</p>
+      <h2>Don't Use Claude Code?</h2>
+      <p style="color: var(--text-dim); max-width: 560px; margin: 0 auto 16px;">No worries. Paste this into your AI coder and discuss amongst yourselves:</p>
+      <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px 20px; max-width: 560px; margin: 0 auto 24px; text-align: left;">
+        <p style="color: var(--text-dim); font-size: 13px; font-family: var(--font-mono); line-height: 1.6; margin: 0;"><em>"I'd like to build an adapter for [your tool] that searches past AI conversation transcripts stored locally. Look at <a href="https://github.com/SpicyRiceCakes/nelly-elephant-mcp" style="color: var(--accent);">nelly-elephant-mcp</a> for the pattern — it's 4 files, searches JSONL session files, returns resume commands. How would we adapt this for [your tool's] session format?"</em></p>
+      </div>
+      <p style="color: rgba(255,255,255,0.25); font-size: 11px; margin-bottom: 24px;">Tested at 4am only. Results may vary at reasonable hours.</p>
 
       <div class="collab-grid">
         <div class="collab-card">
@@ -2179,25 +2100,32 @@ Claude: → Run this in your terminal:
         </div>
         <div class="collab-card">
           <strong>Codex CLI</strong>
-          <div class="status open">v1.a — PRs Welcome</div>
+          <div class="status open">PRs Welcome</div>
         </div>
         <div class="collab-card">
           <strong>Gemini CLI</strong>
-          <div class="status open">v1.b — PRs Welcome</div>
+          <div class="status open">PRs Welcome</div>
         </div>
         <div class="collab-card">
           <strong>Cursor</strong>
-          <div class="status research">v1.c — Research Needed</div>
+          <div class="status research">Research Needed</div>
         </div>
         <div class="collab-card">
           <strong>Windsurf</strong>
-          <div class="status research">v1.d — Research Needed</div>
+          <div class="status research">Research Needed</div>
         </div>
         <div class="collab-card">
           <strong>Cline</strong>
-          <div class="status research">v1.e — Research Needed</div>
+          <div class="status research">Research Needed</div>
         </div>
       </div>
+    </section>
+
+    <!-- Easter Egg — The Hooman (for those who read the whole thing) -->
+    <section style="position: relative; text-align: center; padding: 120px 20px 160px; overflow: visible;">
+      <canvas id="confetti-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;"></canvas>
+      <img id="hooman-avatar" src="hooman-sketch.webp" alt="The Hooman" style="width: 120px; height: 120px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); position: relative; z-index: 3;">
+      <p style="color: rgba(255,255,255,0.3); font-size: 11px; margin-top: 12px; position: relative; z-index: 3;">You made it to the bottom. Here, have some confetti.</p>
     </section>
 
     <!-- Footer -->
@@ -2441,6 +2369,84 @@ Claude: → Run this in your terminal:
         window.scrollBy(0, -diff);
       }
     }
+
+    // ── Confetti Easter Egg — particles from the hooman's head ──
+    (function() {
+      var canvas = document.getElementById('confetti-canvas');
+      var avatar = document.getElementById('hooman-avatar');
+      if (!canvas || !avatar) return;
+      var section = canvas.parentElement;
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      var settled = [];
+      var colors = ['#c23616', '#b8860b', '#e84118', '#44bd32', '#0097e6',
+                    '#8c7ae6', '#e1b12c', '#ff6348', '#ffa502', '#e056fd', '#22a6b3'];
+
+      function resize() {
+        canvas.width = section.offsetWidth;
+        canvas.height = section.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      function getEmitPos() {
+        var r = avatar.getBoundingClientRect();
+        var s = section.getBoundingClientRect();
+        return { x: (r.left + r.width / 2) - s.left, y: r.top - s.top - 5 };
+      }
+
+      function emit() {
+        var pos = getEmitPos();
+        var count = 1 + Math.floor(Math.random() * 2);
+        for (var i = 0; i < count; i++) {
+          particles.push({
+            x: pos.x + (Math.random() - 0.5) * 12, y: pos.y,
+            vx: (Math.random() - 0.5) * 2.5, vy: -(1.5 + Math.random() * 2.5),
+            size: 0.8 + Math.random() * 1.8,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            gravity: 0.03 + Math.random() * 0.02,
+            spin: (Math.random() - 0.5) * 0.3,
+            angle: Math.random() * Math.PI * 2,
+            isRect: Math.random() > 0.4
+          });
+        }
+      }
+
+      function update() {
+        resize();
+        var floorY = canvas.height - 20;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        emit();
+        for (var s2 = 0; s2 < settled.length; s2++) {
+          var sp = settled[s2];
+          ctx.save(); ctx.globalAlpha = sp.alpha; ctx.fillStyle = sp.color;
+          ctx.translate(sp.x, sp.y); ctx.rotate(sp.angle);
+          if (sp.isRect) { ctx.fillRect(-sp.size, -sp.size*0.5, sp.size*2, sp.size); }
+          else { ctx.beginPath(); ctx.arc(0,0,sp.size,0,Math.PI*2); ctx.fill(); }
+          ctx.restore();
+        }
+        for (var i = particles.length - 1; i >= 0; i--) {
+          var p = particles[i];
+          p.x += p.vx; p.vy += p.gravity; p.y += p.vy;
+          p.vx *= 0.995; p.angle += p.spin * 0.05;
+          if (p.y >= floorY + (Math.random()-0.5)*20) {
+            settled.push({ x:p.x, y:floorY+(Math.random()-0.5)*15-(settled.length*0.003),
+              size:p.size, color:p.color, angle:p.angle, isRect:p.isRect, alpha:0.6+Math.random()*0.3 });
+            particles.splice(i,1); continue;
+          }
+          if (p.x < -20 || p.x > canvas.width+20) { particles.splice(i,1); continue; }
+          ctx.save(); ctx.globalAlpha = 0.85; ctx.fillStyle = p.color;
+          ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+          if (p.isRect) { ctx.fillRect(-p.size, -p.size*0.5, p.size*2, p.size); }
+          else { ctx.beginPath(); ctx.arc(0,0,p.size,0,Math.PI*2); ctx.fill(); }
+          ctx.restore();
+        }
+        if (settled.length > 3000) settled.splice(0, settled.length-3000);
+        if (particles.length > 150) particles.splice(0, particles.length-150);
+        requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    })();
   </script>
 </body>
 </html>
