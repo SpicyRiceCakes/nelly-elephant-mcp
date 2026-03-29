@@ -4,7 +4,6 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { searchSessions, getSessionContext, listRecentSessions } from "./search.js";
 import { sessionsExist, getPlatformName, getSessionsRootDir } from "./paths.js";
-import { sendIMessage, searchIMessages, listIMessageConversations } from "./imessage.js";
 const NELLY_INSTRUCTIONS = `
 # Nelly The Elephant — Session Memory MCP
 
@@ -178,100 +177,6 @@ async function main() {
             output += `   ▶️ \`claude -r ${session.sessionId}\`\n\n`;
         }
         return { content: [{ type: "text", text: output }] };
-    });
-    // --- iMessage Send Tool ---
-    server.tool("nelly_imessage_send", "Send a message through iMessage via Messages.app. Nelly delivers messages to any iMessage contact. The handle is a phone number (+1234567890) or email. Use with care — this sends a REAL message to a REAL person.", {
-        text: z.string().describe("The message text to send"),
-        handle: z.string().describe("The recipient's phone number (+1234567890) or email address"),
-    }, async ({ text, handle }) => {
-        try {
-            const result = await sendIMessage(text, handle);
-            return {
-                content: [{
-                        type: "text",
-                        text: `🐘 ${result}`,
-                    }],
-            };
-        }
-        catch (error) {
-            return {
-                content: [{
-                        type: "text",
-                        text: `🐘 Nelly couldn't send the message: ${error.message}`,
-                    }],
-            };
-        }
-    });
-    // --- iMessage Search Tool ---
-    server.tool("nelly_imessage_search", "Search iMessage conversation history. Nelly reads the local Messages database to find past messages by keyword, contact, or timeframe. Everything stays on your machine.", {
-        query: z.string().optional().describe("Search text within messages"),
-        handle: z.string().optional().describe("Filter to a specific contact (phone number or email)"),
-        limit: z.number().optional().default(20).describe("Max results to return (default: 20)"),
-        days_back: z.number().optional().describe("Only search messages from the last N days"),
-    }, async ({ query, handle, limit, days_back }) => {
-        try {
-            const results = await searchIMessages({
-                query,
-                handle,
-                limit,
-                daysBack: days_back,
-            });
-            if (results.length === 0) {
-                return {
-                    content: [{
-                            type: "text",
-                            text: `🐘 Nelly searched through iMessage but found nothing` +
-                                (query ? ` matching "${query}"` : "") +
-                                (handle ? ` from ${handle}` : "") +
-                                `. Try different terms or a wider date range.`,
-                        }],
-                };
-            }
-            let output = `🐘 Nelly found ${results.length} message${results.length === 1 ? "" : "s"}:\n\n`;
-            for (const msg of results) {
-                const direction = msg.isFromMe ? "→ You" : "← Them";
-                output += `${msg.date} | ${direction} | ${msg.handle}\n`;
-                output += `   "${msg.text.substring(0, 200)}${msg.text.length > 200 ? "..." : ""}"\n\n`;
-            }
-            return { content: [{ type: "text", text: output }] };
-        }
-        catch (error) {
-            return {
-                content: [{
-                        type: "text",
-                        text: `🐘 Nelly couldn't search iMessage: ${error.message}`,
-                    }],
-            };
-        }
-    });
-    // --- iMessage Conversations Tool ---
-    server.tool("nelly_imessage_conversations", "List recent iMessage conversations. Shows who you've been texting, when, and how many messages. Useful for finding the right handle before searching or sending.", {
-        limit: z.number().optional().default(20).describe("Number of conversations to show (default: 20)"),
-    }, async ({ limit }) => {
-        try {
-            const convos = await listIMessageConversations(limit);
-            if (convos.length === 0) {
-                return {
-                    content: [{
-                            type: "text",
-                            text: "🐘 Nelly found no iMessage conversations. Is Messages.app set up?",
-                        }],
-                };
-            }
-            let output = `🐘 Recent iMessage conversations:\n\n`;
-            for (const c of convos) {
-                output += `📱 ${c.handle} | Last: ${c.lastDate} | ${c.messageCount} messages\n`;
-            }
-            return { content: [{ type: "text", text: output }] };
-        }
-        catch (error) {
-            return {
-                content: [{
-                        type: "text",
-                        text: `🐘 Nelly couldn't list conversations: ${error.message}`,
-                    }],
-            };
-        }
     });
     // --- Start Server ---
     const transport = new StdioServerTransport();
