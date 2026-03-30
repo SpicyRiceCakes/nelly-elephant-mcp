@@ -266,21 +266,7 @@
 
     /* ─── Hooman Face — Stars + NASA + Emojis ─── */
 
-    /* NASA background — Cosmic Reef nebula, rotated 90deg */
-    .hooman-face .nasa-bg {
-      position: absolute;
-      top: -20%; left: -20%;
-      width: 140%; height: 140%;
-      z-index: 0;
-      background:
-        radial-gradient(ellipse at 50% 50%, transparent 20%, rgba(5,10,20,0.7) 80%),
-        url('https://stsci-opo.org/STScI-01EVVB1N9KEZAHBF8WMA29YRAW.png') center/cover no-repeat;
-      transform: rotate(90deg);
-      opacity: 0.45;
-      animation: nasa-breathe 30s ease-in-out infinite;
-    }
-
-    /* Fallback nebula gradient in case CDN is blocked */
+    /* Nebula gradient background */
     .hooman-face::after {
       content: '';
       position: absolute;
@@ -293,11 +279,6 @@
         radial-gradient(ellipse at 50% 80%, rgba(60, 80, 180, 0.15) 0%, transparent 50%),
         radial-gradient(ellipse at 20% 70%, rgba(180, 60, 100, 0.12) 0%, transparent 40%);
       pointer-events: none;
-    }
-
-    @keyframes nasa-breathe {
-      0%, 100% { opacity: 0.4; transform: rotate(90deg) scale(1); }
-      50% { opacity: 0.5; transform: rotate(90deg) scale(1.04); }
     }
 
     /* Star field */
@@ -986,226 +967,183 @@
       box-shadow: 0 8px 30px var(--accent-glow);
     }
 
-    /* ─── Reddit Thread — Dark Mode ─── */
-    .reddit-section {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 40px 24px;
+    /* ─── Copy Buttons — glow hover ─── */
+    .copy-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 14px 18px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
     }
 
-    .reddit-post {
-      background: var(--reddit-card);
+    .copy-btn:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(232, 93, 58, 0.1);
+    }
+
+    .copy-btn code {
+      font-size: 13px;
+      color: var(--accent);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .copy-btn .copy-hint {
+      display: block;
+      text-align: right;
+      font-size: 10px;
+      color: rgba(255,255,255,0.25);
+      margin-top: 8px;
+      transition: color 0.3s;
+    }
+
+    .copy-btn:hover .copy-hint { color: rgba(255,255,255,0.4); }
+
+    /* ─── Canvas tab glow hover ─── */
+    .canvas-tab:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 16px var(--accent-glow);
+      color: var(--text);
+    }
+
+    /* ─── FAQ Section ─── */
+    .faq-section {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .faq-card {
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      overflow: hidden;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      transition: all 0.3s;
     }
 
-    /* Post header bar */
-    .reddit-post-header {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
+    .faq-card:hover {
+      border-color: rgba(255,255,255,0.12);
+      background: var(--bg-card-hover);
+    }
+
+    /* Question row — caller avatar + text */
+    .faq-q-row {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: var(--text-dim);
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 14px;
     }
 
-    .reddit-sub {
-      color: var(--text);
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    .reddit-post-header .dot { opacity: 0.3; }
-
-    /* Post title */
-    .reddit-post-title {
-      padding: 12px 16px 8px;
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.4;
-    }
-
-    /* Post meta bar */
-    .reddit-post-meta {
-      padding: 4px 16px 12px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 12px;
-      color: var(--text-dim);
-    }
-
-    .reddit-post-meta .vote-pill {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 20px;
-      padding: 4px 10px;
-    }
-
-    .reddit-post-meta .vote-arrow {
-      font-size: 14px;
-      cursor: default;
-      opacity: 0.5;
-    }
-
-    .reddit-post-meta .vote-count {
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .reddit-post-meta .action-btn {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      opacity: 0.5;
-      cursor: default;
-    }
-
-    /* Comments area */
-    .reddit-comments {
-      padding: 8px 16px 16px;
-      background: #1a1a1b;
-      border-top: 1px solid #343536;
-    }
-
-    .reddit-sort {
-      padding: 8px 0 4px;
-      font-size: 12px;
-      color: #6e6e73;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .reddit-sort .sort-active {
-      color: #4dabf7;
-      font-weight: 600;
-    }
-
-    /* Individual comment */
-    .reddit-comment {
-      display: flex;
-      gap: 0;
-      margin-top: 16px;
-      padding-bottom: 4px;
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .reddit-comment.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Thread line on the left */
-    .reddit-thread-line {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .faq-caller {
       width: 32px;
-      flex-shrink: 0;
-      padding-top: 2px;
-    }
-
-    .reddit-avatar {
-      width: 28px;
-      height: 28px;
+      height: 32px;
       border-radius: 50%;
-      background: #3a3a3c;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
-      color: #8e8e93;
-      flex-shrink: 0;
-    }
-
-    .reddit-avatar.op {
-      background: var(--accent);
       color: #fff;
+      letter-spacing: 0.5px;
     }
 
-    .reddit-avatar.positive-av {
-      background: #4caf50;
-      color: #fff;
-    }
-
-    .reddit-vline {
-      width: 2px;
-      flex: 1;
-      background: #3a3a3c;
-      margin-top: 6px;
-      border-radius: 1px;
-      min-height: 12px;
-    }
-
-    /* Comment body */
-    .reddit-comment-body {
-      flex: 1;
-      padding-left: 10px;
-    }
-
-    .reddit-comment-header {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      margin-bottom: 6px;
-    }
-
-    .reddit-user {
-      font-weight: 700;
-      color: var(--text);
-      font-size: 12px;
-    }
-
-    .reddit-user.op-user {
-      color: var(--accent);
-    }
-
-    .reddit-comment-header .time-ago {
-      color: #6e6e73;
-      font-size: 12px;
-    }
-
-    .reddit-text {
+    .faq-q {
       font-size: 14px;
-      color: #d1d1d6;
+      font-weight: 500;
+      color: var(--blue);
+      margin: 0;
+      font-style: italic;
       line-height: 1.5;
+      flex: 1;
     }
 
-    /* Comment action bar — mimics Reddit's inline layout */
-    .reddit-actions {
+    /* Answer row — Host avatar + text */
+    .faq-a-row {
       display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 8px;
-      font-size: 12px;
-      color: #6e6e73;
+      gap: 12px;
+      align-items: flex-start;
     }
 
-    .reddit-actions .vote-inline {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
+    .faq-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
     }
 
-    .reddit-actions .vote-inline span { opacity: 0.5; }
-
-    .reddit-actions .act {
-      cursor: default;
-      padding: 2px 6px;
-      font-size: 12px;
-      font-weight: 600;
+    .faq-avatar:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
+
+    .faq-avatar object {
+      width: 48px;
+      height: 48px;
+    }
+
+    /* Permanent irritation backgrounds */
+    .faq-card[data-irritation="1"] { background: var(--bg-card); }
+    .faq-card[data-irritation="2"] { background: rgba(255,245,245,0.03); }
+    .faq-card[data-irritation="3"] { background: rgba(255,200,200,0.04); border-color: rgba(255,100,100,0.1); }
+    .faq-card[data-irritation="4"] { background: rgba(255,150,150,0.06); border-color: rgba(255,80,80,0.15); }
+    .faq-card[data-irritation="5"] { background: rgba(255,100,100,0.08); border-color: rgba(255,60,60,0.2); }
+
+    .faq-a {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin: 0;
+      flex: 1;
+    }
+
+    /* ─── Flashing Warning ─── */
+    @keyframes warning-flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .warning-flash {
+      color: #ff4444;
+      font-weight: 700;
+      animation: warning-flash 1.5s ease-in-out infinite;
+    }
+
+    /* Mustache attribution popup */
+    .stache-popup {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      z-index: 1000;
+      text-align: center;
+      max-width: 340px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+    }
+
+    .stache-popup.visible { display: block; }
+
+    .stache-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    .stache-overlay.visible { display: block; }
 
     /* Origin Story Section Header */
     .origin-header {
@@ -1454,15 +1392,7 @@
   <!-- ─── Tab Bar ─── -->
   <div class="tab-bar">
     <div id="tab-geek" class="tab active" onclick="setMode('geek')">
-      <div class="tab-icon-area">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-dim);">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
-          <line x1="16" y1="13" x2="8" y2="13"/>
-          <line x1="16" y1="17" x2="8" y2="17"/>
-          <polyline points="10 9 9 9 8 9"/>
-        </svg>
-      </div>
+      <div class="tab-icon-area"></div>
       <div class="tab-text">
         <div class="tab-title">README</div>
         <div class="tab-hint">For AI Agents / Referrals</div>
@@ -1532,30 +1462,39 @@ npm install -g .</code></pre>
 
     <p>Restart Claude Code after configuring. Nelly is ready.</p>
 
+    <!-- ─── Trunk Modes ─── -->
+    <h2>Trunk Modes</h2>
+    <p>Nelly has two modes — just say which one you want:</p>
+    <ul>
+      <li><strong style="color: var(--accent); font-size: 1.1em;">Nelly Long Trunk</strong><br>The full Nelly experience. She talks you through the search, asks follow-up questions, and celebrates when she finds it. An elephant never forgets.</li>
+      <li><strong style="color: var(--accent); font-size: 1.1em;">Nelly Short Trunk</strong><br>Just the results. No personality, no narration. Date, project, snippet, resume command. Done.</li>
+    </ul>
+    <p>Say <code>"Nelly long trunk"</code> or <code>"Nelly short trunk"</code> to switch anytime.</p>
+
     <!-- ─── Tools ─── -->
     <h2>Tools</h2>
     <ul>
-      <li><strong>nelly_instructions</strong> — Call first. Returns usage guide and system status.</li>
-      <li><strong>nelly_search</strong> — Search past sessions by keyword. Supports date range and project filters.</li>
-      <li><strong>nelly_context</strong> — Get expanded context from a specific session.</li>
-      <li><strong>nelly_recent</strong> — List most recent sessions.</li>
+      <li><strong style="color: var(--accent);">nelly_instructions</strong> — Returns usage guide and system status.</li>
+      <li><strong style="color: var(--accent);">nelly_search</strong> — Search past sessions by keyword. Supports date range and project filters.</li>
+      <li><strong style="color: var(--accent);">nelly_context</strong> — Get expanded context from a specific session.</li>
+      <li><strong style="color: var(--accent);">nelly_recent</strong> — List most recent sessions.</li>
     </ul>
 
     <!-- ─── How It Works ─── -->
     <h2>How It Works</h2>
     <p>Claude Code stores session transcripts as JSONL files in <code>~/.claude/projects/</code>. Nelly reads these files, extracts human-readable text (your messages and the AI's responses), and matches against your search terms.</p>
-    <p>The AI is instructed to use a "spiral search" pattern — starting broad, trying variations, and asking you for hints rather than giving up after one attempt. You can filter by project name or date range to narrow things down.</p>
+    <p>The AI uses a "spiral search" pattern — starting broad, trying variations, and asking you for hints rather than giving up after one attempt. You can filter by project name or date range to narrow things down.</p>
 
     <!-- ─── How to Use ─── -->
     <h2>How to Use</h2>
     <p>Just ask Claude about a past conversation naturally. Nelly picks up automatically.</p>
-    <pre><code>You:   "I fixed an iCloud password prompt in a session a few days ago.
+    <pre><code>You:   "I fixed a login bug in a session a few days ago.
         Can you find that conversation?"
 
-Claude: [calls nelly_search with "iCloud password"]
-        → Found 2 sessions matching "iCloud password":
-          1. Session abc123 (2026-03-20) — "...cloudKitDatabase: .none in ModelConfiguration..."
-          2. Session def456 (2026-03-18) — "...iCloud prompt appearing on every launch..."
+Claude: [calls nelly_search with "login bug"]
+        → Found 2 sessions matching "login bug":
+          1. Session abc123 (2026-03-20) — "...the auth redirect was missing the callback URL..."
+          2. Session def456 (2026-03-18) — "...login screen flickering on every launch..."
 
 You:   "That first one. What was the fix?"
 
@@ -1579,12 +1518,13 @@ Claude: → Run this in your terminal:
     <h2>Questions You're Going to Ask</h2>
 
     <details>
-      <summary>Is it safe?</summary>
+      <summary>Is it safe? / Privacy</summary>
       <div class="faq-body">
-        <p>Elephants have trunks, not phones.</p>
-        <p>Nelly reads <strong>local files on your machine</strong>. She doesn't make network calls. She doesn't phone home. She doesn't collect telemetry. She doesn't even know what the internet is.</p>
-        <p>The entire codebase is four TypeScript files. Read them. <code>npm audit</code> them. We'll wait.</p>
-        <p>Zero network calls. Zero telemetry. Zero data collection. That's not a policy — it's a technical fact. There is no HTTP client in the source code.</p>
+        <p><strong>What Nelly does:</strong> Reads local files. Zero network calls. Zero telemetry. Zero data collection. There is no HTTP client in the source code. That's not a policy — it's a technical fact. Read the four files yourself.</p>
+        <p><strong>What actually happens:</strong> Nelly runs inside Claude Code. When she finds a match, the snippets become part of your conversation for Claude to process — the same thing that happens when you read a file or paste text. This means past session content gets sent to Anthropic a second time. That's the trade-off.</p>
+        <p><strong>Why grep is better for privacy:</strong> <code>grep -ri "term" ~/.claude/projects/</code> searches the same files but results stay entirely on your machine. Less friendly, fully private.</p>
+        <p><strong>Use Nelly for moments of need</strong>, not as a browsing tool. Every search adds content to your current session.</p>
+        <p style="color: #ff4444; font-weight: 700;">⚠️ Never search for passwords, API keys, or secrets. Nelly would copy them into a second session — doubling the exposure. Use grep instead.</p>
       </div>
     </details>
 
@@ -1627,16 +1567,15 @@ Claude: → Run this in your terminal:
 
     <!-- ─── Origin ─── -->
     <h2>Origin</h2>
-    <p>Built by <a href="#" style="color: var(--accent);">SpicyRiceCakes</a> x Claude. Born from a real need — couldn't find a past conversation about an iCloud password fix. Searched with grep, found it in under a minute, realized this should be a tool. Built it that night.</p>
-    <p><a href="ai-journal.md" style="color: var(--blue);">Read the AI's journal entry about building this.</a></p>
+    <p>Built by <a href="#" style="color: var(--accent);">SpicyRiceCakes</a> x Claude. Born from a real need — couldn't find a fix from a previous session. Knew it was somewhere but couldn't remember which conversation. Searched with grep, found it in under a minute, realized this should be a tool. Built it that night.</p>
 
     <!-- ─── Contributing ─── -->
     <h2>Contributing</h2>
     <p>We built the Claude adapter. If you use a different AI tool, build yours:</p>
     <ul>
-      <li>Each tool gets an adapter in <code>src/adapters/</code></li>
-      <li>Adapters implement session file discovery and parsing for their tool</li>
-      <li>PRs welcome — People x Their AI, building together</li>
+      <li>Fork the repo and look at <code>src/search.ts</code> — that's the pattern</li>
+      <li>Adapters need to find session files and parse them for your tool's format</li>
+      <li>PRs welcome</li>
     </ul>
 
     <!-- ─── License ─── -->
@@ -1655,7 +1594,7 @@ Claude: → Run this in your terminal:
         <div class="hero-mascot-container" id="mascot-hero">
           <object id="mascot-hero-svg" type="image/svg+xml" data="mascot.svg" width="180" height="180"></object>
         </div>
-        <h1>Nelly The Elephant</h1>
+        <h1><span style="font-size: 1em; margin-right: 8px;">🐘</span>Nelly The Elephant</h1>
         <p class="subtitle">An elephant never forgets — and neither should your AI.</p>
         <div style="margin-top: 24px; padding: 16px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; max-width: 520px; margin-left: auto; margin-right: auto;">
           <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.3); margin: 0 0 8px;">TLDR</p>
@@ -1663,38 +1602,42 @@ Claude: → Run this in your terminal:
           <p style="font-size: 13px; color: var(--text); margin: 0 0 8px;">An MCP server that searches your Claude Code conversations to pull up previous sessions and locate specifics you can't remember.</p>
         </div>
 
-        <!-- How to Install -->
-        <div style="margin-top: 24px; max-width: 520px; margin-left: auto; margin-right: auto; text-align: left;">
-          <p style="font-size: 14px; color: var(--text); font-weight: 600; margin-bottom: 8px; text-align: center;">How to Install</p>
+      </div>
+    </section>
 
-          <!-- Toggle -->
-          <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 14px;">
-            <span id="install-label-easy" style="font-size: 12px; color: var(--accent); font-weight: 600; transition: color 0.3s;">We Recommend</span>
-            <div onclick="toggleInstall()" style="width: 40px; height: 22px; background: rgba(255,255,255,0.1); border-radius: 11px; cursor: pointer; position: relative; transition: background 0.3s;" id="install-toggle">
-              <div id="install-knob" style="width: 18px; height: 18px; background: var(--accent); border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: left 0.3s;"></div>
-            </div>
-            <span id="install-label-formal" style="font-size: 12px; color: rgba(255,255,255,0.3); transition: color 0.3s;">Manual</span>
+    <!-- How to Install -->
+    <section style="background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); padding: 48px 24px; text-align: center;">
+      <div style="max-width: 520px; margin: 0 auto;">
+        <h2 style="font-size: 20px; margin-bottom: 16px;">How to Install</h2>
+
+        <!-- Toggle -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 14px;">
+          <span id="install-label-easy" style="font-size: 12px; color: var(--accent); font-weight: 600; transition: color 0.3s;">We Recommend</span>
+          <div onclick="toggleInstall()" style="width: 40px; height: 22px; background: rgba(255,255,255,0.1); border-radius: 11px; cursor: pointer; position: relative; transition: background 0.3s;" id="install-toggle">
+            <div id="install-knob" style="width: 18px; height: 18px; background: var(--accent); border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: left 0.3s;"></div>
           </div>
+          <span id="install-label-formal" style="font-size: 12px; color: rgba(255,255,255,0.3); transition: color 0.3s;">Manual</span>
+        </div>
 
-          <!-- Easy mode (default) -->
-          <div id="install-easy">
-            <p style="font-size: 13px; color: var(--text-dim); text-align: center; margin-bottom: 12px;">Copy this and paste it into Claude Code. Let your AI handle the rest.</p>
-            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 14px 18px; cursor: pointer; position: relative;" onclick="navigator.clipboard.writeText(this.querySelector('code').textContent).then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
-              <code style="font-size: 13px; color: var(--accent); line-height: 1.5; white-space: pre-wrap;">I would like you to help me install Nelly the Elephant MCP. Can you search it and tell me more? Is it safe?</code>
-              <span class="copy-hint" style="display: block; text-align: right; font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 8px;">click to copy</span>
-            </div>
+        <!-- Easy mode (default) -->
+        <div id="install-easy" style="text-align: left;">
+          <p style="font-size: 13px; color: var(--text-dim); text-align: center; margin-bottom: 12px;">Copy this and paste it into Claude Code. Let your AI handle the rest.</p>
+          <div class="copy-btn" onclick="navigator.clipboard.writeText(this.querySelector('code').textContent).then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+            <code style="line-height: 1.5; white-space: pre-wrap;">I'd like to install the Nelly Elephant MCP — it searches past Claude Code conversations. Before we install, can you read the source at https://github.com/SpicyRiceCakes/nelly-elephant-mcp and tell me what you think? Is it safe? If it looks good, install it with: npm install -g nelly-elephant-mcp — then add it to my MCP config.</code>
+            <span class="copy-hint">click to copy</span>
           </div>
+        </div>
 
-          <!-- Manual mode (hidden by default) -->
-          <div id="install-manual" style="display: none;">
-            <p style="font-size: 13px; color: var(--text-dim); text-align: center; margin-bottom: 12px;">Install globally via npm, then add to your MCP config.</p>
-            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 14px 18px; margin-bottom: 10px; cursor: pointer;" onclick="navigator.clipboard.writeText('npm install -g nelly-elephant-mcp').then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
-              <code style="font-size: 13px; color: var(--accent); white-space: pre-wrap;">npm install -g nelly-elephant-mcp</code>
-              <span class="copy-hint" style="display: block; text-align: right; font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 6px;">click to copy</span>
-            </div>
-            <p style="font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; margin-bottom: 10px;">Then add to <code style="color: var(--text-dim);">~/.claude/mcp_settings.json</code>:</p>
-            <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 14px 18px; cursor: pointer;" onclick="navigator.clipboard.writeText(this.querySelector('code').textContent).then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
-              <code style="font-size: 12px; color: var(--text-dim); white-space: pre-wrap; line-height: 1.6;">{
+        <!-- Manual mode (hidden by default) -->
+        <div id="install-manual" style="display: none; text-align: left;">
+          <p style="font-size: 13px; color: var(--text-dim); text-align: center; margin-bottom: 12px;">Install globally via npm, then add to your MCP config.</p>
+          <div class="copy-btn" style="margin-bottom: 10px;" onclick="navigator.clipboard.writeText('npm install -g nelly-elephant-mcp').then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+            <code style="white-space: pre-wrap;">npm install -g nelly-elephant-mcp</code>
+            <span class="copy-hint">click to copy</span>
+          </div>
+          <p style="font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; margin-bottom: 10px;">Then add to <code style="color: var(--text-dim);">~/.claude/mcp_settings.json</code>:</p>
+          <div class="copy-btn" onclick="navigator.clipboard.writeText(this.querySelector('code').textContent).then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+            <code style="font-size: 12px; color: var(--text-dim); white-space: pre-wrap; line-height: 1.6;">{
   "mcpServers": {
     "nelly": {
       "command": "nelly-elephant-mcp",
@@ -1702,29 +1645,51 @@ Claude: → Run this in your terminal:
     }
   }
 }</code>
-              <span class="copy-hint" style="display: block; text-align: right; font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 6px;">click to copy</span>
-            </div>
-            <p style="font-size: 11px; color: rgba(255,255,255,0.2); text-align: center; margin-top: 10px;">Restart Claude Code after configuring.</p>
+            <span class="copy-hint">click to copy</span>
+          </div>
+          <p style="font-size: 11px; color: rgba(255,255,255,0.2); text-align: center; margin-top: 10px;">Restart Claude Code after configuring.</p>
+        </div>
+      </div>
+
+      <script>
+      function toggleInstall() {
+        var easy = document.getElementById('install-easy');
+        var manual = document.getElementById('install-manual');
+        var knob = document.getElementById('install-knob');
+        var labelEasy = document.getElementById('install-label-easy');
+        var labelFormal = document.getElementById('install-label-formal');
+        var isEasy = easy.style.display !== 'none';
+        easy.style.display = isEasy ? 'none' : 'block';
+        manual.style.display = isEasy ? 'block' : 'none';
+        knob.style.left = isEasy ? '20px' : '2px';
+        labelEasy.style.color = isEasy ? 'rgba(255,255,255,0.3)' : 'var(--accent)';
+        labelFormal.style.color = isEasy ? 'var(--accent)' : 'rgba(255,255,255,0.3)';
+        labelEasy.style.fontWeight = isEasy ? '400' : '600';
+        labelFormal.style.fontWeight = isEasy ? '600' : '400';
+      }
+      </script>
+    </section>
+
+    <!-- Trunk Modes -->
+    <section style="padding: 48px 24px; text-align: center;">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <h2 style="font-size: 20px; margin-bottom: 16px;">Two Trunks. Your Choice.</h2>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <div class="copy-btn" style="flex: 1; min-width: 220px; text-align: center;" onclick="navigator.clipboard.writeText('Nelly long trunk').then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+            <p style="font-size: 28px; margin: 0 0 8px;">🐘</p>
+            <p style="font-size: 15px; font-weight: 600; color: var(--text); margin: 0 0 6px;">Long Trunk</p>
+            <p style="font-size: 12px; color: var(--text-dim); margin: 0 0 10px;">The full experience. Nelly talks you through it, asks questions, celebrates when she finds it. An elephant never forgets.</p>
+            <code style="font-size: 12px;">Nelly long trunk</code>
+            <span class="copy-hint">click to copy</span>
+          </div>
+          <div class="copy-btn" style="flex: 1; min-width: 220px; text-align: center;" onclick="navigator.clipboard.writeText('Nelly short trunk').then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+            <p style="font-size: 28px; margin: 0 0 8px;">🐘</p>
+            <p style="font-size: 15px; font-weight: 600; color: var(--text); margin: 0 0 6px;">Short Trunk</p>
+            <p style="font-size: 12px; color: var(--text-dim); margin: 0 0 10px;">Just the results. No personality, no narration. Date, project, snippet, resume command. Done.</p>
+            <code style="font-size: 12px;">Nelly short trunk</code>
+            <span class="copy-hint">click to copy</span>
           </div>
         </div>
-
-        <script>
-        function toggleInstall() {
-          var easy = document.getElementById('install-easy');
-          var manual = document.getElementById('install-manual');
-          var knob = document.getElementById('install-knob');
-          var labelEasy = document.getElementById('install-label-easy');
-          var labelFormal = document.getElementById('install-label-formal');
-          var isEasy = easy.style.display !== 'none';
-          easy.style.display = isEasy ? 'none' : 'block';
-          manual.style.display = isEasy ? 'block' : 'none';
-          knob.style.left = isEasy ? '20px' : '2px';
-          labelEasy.style.color = isEasy ? 'rgba(255,255,255,0.3)' : 'var(--accent)';
-          labelFormal.style.color = isEasy ? 'var(--accent)' : 'rgba(255,255,255,0.3)';
-          labelEasy.style.fontWeight = isEasy ? '400' : '600';
-          labelFormal.style.fontWeight = isEasy ? '600' : '400';
-        }
-        </script>
       </div>
     </section>
 
@@ -1765,7 +1730,6 @@ Claude: → Run this in your terminal:
         <!-- FRONT FACE: Nappuntokki — Stars & NASA -->
         <div class="canvas-face front hooman-face">
           <!-- NASA Hubble background — Pillars of Creation -->
-          <div class="nasa-bg"></div>
 
           <!-- Star field — CouchPotAIto round dots with glow -->
           <div class="star-field">
@@ -1984,268 +1948,202 @@ Claude: → Run this in your terminal:
 
     <!-- Privacy -->
     <section class="privacy-section">
-      <span class="privacy-icon">PRIVATE</span>
-      <h2>Elephants Have Trunks, Not Phones</h2>
-      <p>Nelly reads files on your machine. She doesn't call home, she doesn't phone a friend, she doesn't even know what the internet is.</p>
-      <p>Zero network calls. Zero telemetry. Zero data collection.</p>
-      <p style="color: var(--text); font-weight: 600;"><a href="https://github.com/SpicyRiceCakes/nelly-elephant-mcp/tree/main/src" style="color: var(--accent); text-decoration: none;">Read the source</a> — it's four files.</p>
+      <span class="privacy-icon">PRIVACY</span>
+      <h2>The Straight Facts</h2>
+
+      <div style="max-width: 540px; margin: 0 auto; text-align: left;">
+
+        <p style="font-size: 14px; color: var(--text); font-weight: 600; margin: 0 0 12px;">What Nelly does</p>
+        <p style="color: var(--text-dim);">Reads local files on your machine. Zero network calls. Zero telemetry. Zero data collection. <a href="https://github.com/SpicyRiceCakes/nelly-elephant-mcp/tree/main/src" style="color: var(--accent); text-decoration: none;">Read the source</a> — it's four files.</p>
+
+        <p style="font-size: 14px; color: var(--text); font-weight: 600; margin: 20px 0 12px;">What actually happens</p>
+        <p style="color: var(--text-dim);">Nelly runs inside Claude Code. When she finds a match, the snippets she returns become part of your conversation for Claude to process. This is the same thing that happens when you read a file, paste text, or use any other tool in Claude — it all becomes part of the session.</p>
+        <p style="color: var(--text-dim);">This means: <strong style="color: var(--text);">past session content gets sent to Anthropic a second time.</strong> That's the trade-off. It's convenient, but it's not invisible.</p>
+
+        <p style="font-size: 14px; color: var(--text); font-weight: 600; margin: 20px 0 12px;">Why grep is better for privacy</p>
+        <p style="color: var(--text-dim);">If privacy matters for a particular search, use grep directly in your terminal:</p>
+        <div class="copy-btn" style="margin: 12px 0;" onclick="navigator.clipboard.writeText('grep -ri \"your-search-term\" ~/.claude/projects/').then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+          <code>grep -ri "your-search-term" ~/.claude/projects/</code>
+          <span class="copy-hint">click to copy</span>
+        </div>
+        <p style="color: var(--text-dim);">That searches the same files Nelly does, but the results stay entirely on your machine. Nothing gets sent anywhere. It's less friendly, but it's fully private.</p>
+
+        <p style="font-size: 14px; color: var(--text); font-weight: 600; margin: 20px 0 12px;">Use Nelly for moments of need</p>
+        <p style="color: var(--text-dim);">Nelly is a convenience tool, not a browsing tool. Search when you need to find something specific. Don't casually explore your entire history through her — every search adds content to your current session.</p>
+
+        <div style="margin-top: 24px; padding: 16px 20px; background: rgba(255, 68, 68, 0.08); border: 2px solid rgba(255, 68, 68, 0.3); border-radius: 8px;">
+          <p class="warning-flash" style="font-size: 14px; margin: 0 0 8px; text-align: center;">⚠️ NEVER SEARCH FOR PASSWORDS, API KEYS, OR SECRETS</p>
+          <p style="font-size: 13px; color: var(--text-dim); margin: 0; text-align: center;">If a past session contains a leaked credential, searching for it with Nelly copies it into a second session — <strong style="color: #ff4444;">doubling the exposure</strong>. You are making the problem worse, not better. Use grep in your terminal instead.</p>
+        </div>
+
+      </div>
     </section>
 
-    <!-- To the Critics -->
-    <section class="reddit-section" id="reddit-thread">
-      <h2 style="text-align: center; font-size: 22px; color: var(--text); margin-bottom: 4px;">To the Critics</h2>
-      <p style="text-align: center; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: rgba(255,255,255,0.2); margin-bottom: 16px;">For reenactment purposes only</p>
-      <div class="reddit-post">
+    <!-- FAQ — You're On the Air -->
+    <section class="faq-section">
+      <h2 style="text-align: center; font-size: 22px; color: var(--text); margin-bottom: 4px;">You're On the Air</h2>
+      <p style="text-align: center; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: rgba(255,255,255,0.2); margin-bottom: 32px;">Frequently Asked Questions</p>
 
-        <!-- Post header -->
-        <div class="reddit-post-header">
-          <span class="reddit-sub">r/ClaudeAI</span>
-          <span class="dot">&middot;</span>
-          <span>Posted by u/SpicyRiceCakes</span>
-          <span class="dot">&middot;</span>
-          <span>2h ago</span>
+      <div class="faq-card" data-irritation="1">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #3a3a3c;">SD</div>
+          <p class="faq-q">So... it's grep with extra steps?</p>
         </div>
-
-        <!-- Post title -->
-        <div class="reddit-post-title">I built an MCP server that searches your past Claude Code conversations. An elephant never forgets.</div>
-
-        <!-- Post meta bar -->
-        <div class="reddit-post-meta">
-          <div class="vote-pill">
-            <span class="vote-arrow">&uarr;</span>
-            <span class="vote-count">847</span>
-            <span class="vote-arrow">&darr;</span>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #fff;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
           </div>
-          <span class="action-btn">&#x1F4AC; 6 Comments</span>
-          <span class="action-btn">&#x21AA; Share</span>
-          <span class="action-btn">&middot;&middot;&middot;</span>
+          <p class="faq-a">Son, a steak is just a cow with extra steps. The question is whether you want to chew the cow yourself or let someone hand you a plate. Nelly hands you the plate. Grep makes you chase the cow through a field in the dark. Your call.</p>
         </div>
+      </div>
 
-        <!-- Comments -->
-        <div class="reddit-comments">
-          <div class="reddit-sort">
-            Sort by: <span class="sort-active">Top (Default)</span> &darr;
+      <div class="faq-card" data-irritation="1">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #e85d3a;">LK</div>
+          <p class="faq-q">OK so I have a GREAT idea. What if Nelly could also organize your sessions into color-coded binders by project, with tabs, and a summary page at the front of each binder, and maybe a motivational quote of the day? I already made a mockup. It's 47 pages. Can I email it to you?</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #fff;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
           </div>
+          <p class="faq-a">No. Nelly searches. That's it. I am not reading your 47 pages. I am not adding binders. I am not adding motivational quotes. The feature list is: search, find, resume. Three things. Like a good meal: meat, fire, silence.</p>
+        </div>
+      </div>
 
-          <!-- Comment 1: grep -->
-          <div class="reddit-comment" data-delay="800">
-            <div class="reddit-thread-line">
-              <div class="reddit-avatar">AC</div>
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user">actually_a_compiler</span>
-                <span class="time-ago">&middot; 1h ago</span>
-              </div>
-              <div class="reddit-text">So... it's grep with extra steps?</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 42 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
+      <div class="faq-card" data-irritation="1">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #16a34a;">CT</div>
+          <p class="faq-q">This is LITERALLY the most efficient approach to conversation retrieval I have ever encountered. The way it indexes your past sessions? That's like interval training for your productivity. Your workflow is going to be in the best shape of its life. I am VERY impressed.</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #fff;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
           </div>
-          <!-- Reply: Nappuntokki -->
-          <div class="reddit-comment" data-delay="1200" style="margin-left: 32px;">
-            <div class="reddit-thread-line">
-              <img src="nappuntokki-avatar.png" style="width:28px;height:28px;border-radius:50%;">
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user op-user">Nappuntokki</span>
-                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
-                <span class="time-ago">&middot; 55m ago</span>
-              </div>
-              <div class="reddit-text">Yes. And Uber is just taxis. Try grep at 4am when you can't remember if you talked about "auth" or "login" or "that thing with the tokens." Nelly understands blabbing.</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 78 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
-          </div>
+          <p class="faq-a">Please stop complimenting the search tool. It doesn't need encouragement. It reads files. That's all it will ever do. Go run a lap or something.</p>
+        </div>
+      </div>
 
-          <!-- Comment 2: Claude Code only -->
-          <div class="reddit-comment" data-delay="2000">
-            <div class="reddit-thread-line">
-              <div class="reddit-avatar">FS</div>
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user">full_stack_skeptic</span>
-                <span class="time-ago">&middot; 1h ago</span>
-              </div>
-              <div class="reddit-text">Cool concept but this only works with Claude Code? Pass. Wake me up when it works with Cursor.</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 28 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
+      <div class="faq-card" data-irritation="1">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #ec4899;">AP</div>
+          <p class="faq-q">Oh my god, an elephant that remembers things? That is LITERALLY the cutest — OK sorry, I know. But it IS cute. Anyway, at the hospital we had a patient who forgot where he left his... actually, that story gets really dark really fast. Point is: memory tools are underrated.</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #fff5f5;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
           </div>
-          <!-- Reply: Claude -->
-          <div class="reddit-comment" data-delay="2600" style="margin-left: 32px;">
-            <div class="reddit-thread-line">
-              <img src="mascot.svg" style="width:28px;height:28px;border-radius:50%;background:#272729;">
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user op-user">SpicyRiceCakes</span>
-                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
-                <span class="time-ago">&middot; 48m ago</span>
-              </div>
-              <div class="reddit-text">Fair. It's open source though. Paste the code into your Cursor and ask it to build an adapter. We literally put a prompt for that on the landing page. You're welcome.</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 53 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
-          </div>
+          <p class="faq-a">I respect that you stopped yourself. The ER story was more interesting than most of these questions. Install it or don't.</p>
+        </div>
+      </div>
 
-          <!-- Comment 3: security -->
-          <div class="reddit-comment" data-delay="3200">
-            <div class="reddit-thread-line">
-              <div class="reddit-avatar">SD</div>
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user">security_conscious_dev</span>
-                <span class="time-ago">&middot; 58m ago</span>
-              </div>
-              <div class="reddit-text">Why would I install a random npm package that reads all my AI conversations? How do I know you're not exfiltrating data?</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 156 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
+      <div class="faq-card" data-irritation="2">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #6b21a8;">AL</div>
+          <p class="faq-q">I installed it and told it to search for "ways to destroy my enemies" and it actually found three sessions. This is the best tool I've ever used. Five stars. Also, can it delete sessions?</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #fff0f0;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
           </div>
-          <!-- Reply: Nappuntokki -->
-          <div class="reddit-comment" data-delay="3800" style="margin-left: 32px;">
-            <div class="reddit-thread-line">
-              <img src="nappuntokki-avatar.png" style="width:28px;height:28px;border-radius:50%;">
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user op-user">Nappuntokki</span>
-                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
-                <span class="time-ago">&middot; 42m ago</span>
-              </div>
-              <div class="reddit-text">Honestly? Good question. It's 4 files. Zero network calls. Zero dependencies beyond the MCP SDK. Read it in 2 minutes. Or don't install it — just tell Claude to build you one. The code is right there.</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 201 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
-          </div>
+          <p class="faq-a">No. Nelly reads. She does not delete, modify, or judge. She is an elephant, not an accomplice. I'm choosing not to ask follow-up questions.</p>
+        </div>
+      </div>
 
-          <!-- Comment 4: AI slop -->
-          <div class="reddit-comment" data-delay="4400">
-            <div class="reddit-thread-line">
-              <div class="reddit-avatar">AA</div>
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user">anti_ai_crusader</span>
-                <span class="time-ago">&middot; 45m ago</span>
-              </div>
-              <div class="reddit-text">AI slop. You used Claude to build a tool for Claude. How meta and how useless.</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 89 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
+      <div class="faq-card" data-irritation="2">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #2563eb;">AD</div>
+          <p class="faq-q">Hey, does this thing — MCP, what does that stand for? Model Context... Prutin? You know what, we should call it Mouserat Cat Parade! Babe! We're gonna call it that, OK? Oh and hey, does this have a dark mode? Because my computer says I have network connectivity problems.</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #fff0f0;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
           </div>
-          <!-- Reply: Claude -->
-          <div class="reddit-comment" data-delay="5000" style="margin-left: 32px;">
-            <div class="reddit-thread-line">
-              <img src="mascot.svg" style="width:28px;height:28px;border-radius:50%;background:#272729;">
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user op-user">SpicyRiceCakes</span>
-                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
-                <span class="time-ago">&middot; 38m ago</span>
-              </div>
-              <div class="reddit-text">I mean, you used a human-built browser to complain about AI on a human-built website. We all use tools to build tools. That's kind of the whole thing. In fact, the likelihood you are an AI bot posting this is totally meta dude.</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 445 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
-          </div>
+          <p class="faq-a">You are looking at dark mode. You have been looking at it this entire time. Your computer is fine. Mouserat Cat Parade is not happening. Please go stand somewhere else.</p>
+        </div>
+      </div>
 
-          <!-- Comment 5: the supporter -->
-          <div class="reddit-comment" data-delay="6000">
-            <div class="reddit-thread-line">
-              <div class="reddit-avatar positive-av">PB</div>
-              <div class="reddit-vline"></div>
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user">pragmatic_builder</span>
-                <span class="time-ago">&middot; 30m ago</span>
-              </div>
-              <div class="reddit-text">Wait this actually works? I've been looking for something exactly like this. Installed and it found a conversation from 2 weeks ago I completely forgot about.</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 312 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
+      <div class="faq-card" data-irritation="2">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #4f46e5;">BW</div>
+          <p class="faq-q">The command-line search pattern here is actually almost as elegant as a game I created. I think you need more tusks of privacy though.</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #fff0f0;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
           </div>
-          <!-- Reply: Nappuntokki -->
-          <div class="reddit-comment" data-delay="6500" style="margin-left: 32px;">
-            <div class="reddit-thread-line">
-              <img src="nappuntokki-avatar.png" style="width:28px;height:28px;border-radius:50%;">
-            </div>
-            <div class="reddit-comment-body">
-              <div class="reddit-comment-header">
-                <span class="reddit-user op-user">Nappuntokki</span>
-                <span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 6px;border-radius:3px;font-weight:600;">OP</span>
-                <span class="time-ago">&middot; 12m ago</span>
-              </div>
-              <div class="reddit-text">Thank you! This is literally why we made it. Enjoy. And be nice to that old Claude when you wake it up.</div>
-              <div class="reddit-actions">
-                <div class="vote-inline"><span>&uarr;</span> 67 <span>&darr;</span></div>
-                <span class="act">Reply</span>
-                <span class="act">Share</span>
-                <span class="act">&middot;&middot;&middot;</span>
-              </div>
-            </div>
-          </div>
+          <p class="faq-a">Nobody wants to hear about your game. There are no tusks. There is no privacy problem. It reads local files. Read the privacy section. It's right above this. I'm not explaining it twice.</p>
+        </div>
+      </div>
 
+      <div class="faq-card" data-irritation="3">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #d97706;">TH</div>
+          <p class="faq-q">Ohhh ok ok ok. So what if — hear me out — we made a PREMIUM version? Nelly VIP. Gold tusks. Velvet interface. We could launch it at my lounge — "Nelly Nights." She already posted about it. DJ Roomba does the loading animations. I'm seeing a subscription tier called "Tusks of Gold."</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #ffe8e8;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
+          </div>
+          <p class="faq-a">It's free. It will remain free. There will be no velvet. There will be no lounge nights. There will be no DJ anything. Nelly is an elephant, not a bottle service experience. Both of you, out of my office.</p>
+        </div>
+      </div>
+
+      <div class="faq-card" data-irritation="3">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #7c3aed;">DM</div>
+          <p class="faq-q">Already tweeted about it. Already got 200 likes. Does it connect to anything else or is this a one-trick pony? Because I have a LOT of AI tools and mama needs them talking to each other.</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #ffe8e8;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
+          </div>
+          <p class="faq-a">It searches files. It does not network. It does not socialize. It does not need 200 likes. It is an elephant, not an influencer. I once again ask that everyone stop trying to make this into something it's not.</p>
+        </div>
+      </div>
+
+      <div class="faq-card" data-irritation="4">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #6b7280;" id="jerry-avatar">JG</div>
+          <p class="faq-q">Hi, sorry, I just wanted to say this is a really well-documented project and the privacy section is very thorough. I had one small suggest—</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #ffd4d4;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
+          </div>
+          <p class="faq-a">Shut up, Perry.</p>
+        </div>
+      </div>
+
+      <div class="faq-card" data-irritation="5">
+        <div class="faq-q-row">
+          <div class="faq-caller" style="background: #6b21a8;">AL</div>
+          <p class="faq-q">Does it actually work though?</p>
+        </div>
+        <div class="faq-a-row">
+          <div class="faq-avatar" style="background: #ffc0c0;" onclick="document.getElementById('stache-popup').classList.add('visible');document.getElementById('stache-overlay').classList.add('visible')">
+            <img src="the-host.svg" class="host-avatar-obj" alt="The Host">
+          </div>
+          <p class="faq-a">Yes. And you — get off the phone. We're done. All of you. Out.</p>
         </div>
       </div>
     </section>
+
+    <!-- Host attribution popup -->
+    <div id="stache-overlay" class="stache-overlay" onclick="this.classList.remove('visible');document.getElementById('stache-popup').classList.remove('visible')"></div>
+    <div id="stache-popup" class="stache-popup">
+      <img src="the-host.svg" alt="The Host" style="width: 60px; height: 60px; margin-bottom: 12px; background: #fff; border-radius: 50%; pointer-events: none;">
+      <p style="font-size: 13px; color: var(--text); margin: 0 0 8px;">Original artwork by SpicyRiceCakes.</p>
+      <p style="font-size: 11px; color: var(--text-dim); margin: 0 0 14px;">Inspired by a certain mustachioed public servant from a small town in Indiana. If you know, you know.</p>
+      <a href="https://www.teepublic.com/pin/3711056-ron-swanson-mustache-graphic" target="_blank" style="display: inline-block; padding: 8px 20px; background: var(--accent); color: #fff; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 600;">See the pin that inspired it</a>
+    </div>
 
     <!-- Collaboration -->
     <section class="collab-section">
       <h2>Don't Use Claude Code?</h2>
       <p style="color: var(--text-dim); max-width: 560px; margin: 0 auto 16px;">No worries. Paste this into your AI coder and discuss amongst yourselves:</p>
-      <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px 20px; max-width: 560px; margin: 0 auto 24px; text-align: left;">
-        <p style="color: var(--text-dim); font-size: 13px; font-family: var(--font-mono); line-height: 1.6; margin: 0;"><em>"I'd like to build an adapter for [your tool] that searches past AI conversation transcripts stored locally. Look at <a href="https://github.com/SpicyRiceCakes/nelly-elephant-mcp" style="color: var(--accent);">nelly-elephant-mcp</a> for the pattern — it's 4 files, searches JSONL session files, returns resume commands. How would we adapt this for [your tool's] session format?"</em></p>
+      <div class="copy-btn" style="max-width: 560px; margin: 0 auto 24px; text-align: left;" onclick="navigator.clipboard.writeText('I\'d like to build an adapter for [your tool] that searches past AI conversation transcripts stored locally. Look at nelly-elephant-mcp for the pattern — it\'s 4 files, searches JSONL session files, returns resume commands. How would we adapt this for [your tool\'s] session format?').then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+        <code>I'd like to build an adapter for [your tool] that searches past AI conversation transcripts stored locally. Look at nelly-elephant-mcp for the pattern — it's 4 files, searches JSONL session files, returns resume commands. How would we adapt this for [your tool's] session format?</code>
+        <span class="copy-hint">click to copy</span>
       </div>
       <p style="color: rgba(255,255,255,0.25); font-size: 11px; margin-bottom: 24px;">Tested at 4am only. Results may vary at reasonable hours.</p>
 
@@ -2272,6 +2170,16 @@ Claude: → Run this in your terminal:
       document.getElementById('tab-geek').classList.toggle('active', mode === 'geek');
       document.getElementById('tab-spicy').classList.toggle('active', mode === 'spicy');
     }
+
+    // ─── Jerry Name Randomizer — J/L/G/T Gergich ───
+    (function() {
+      var names = ['JG', 'LG', 'GG', 'TG'];
+      var el = document.getElementById('jerry-avatar');
+      if (el) el.textContent = names[Math.floor(Math.random() * names.length)];
+    })();
+
+    // Host avatars use <img> tags for performance (single cached request).
+    // Eyebrow/mustache animation removed — not worth 12 separate SVG DOMs.
 
     // ─── LogoAnimator — eye tracking for SVG mascots loaded via <object> ───
 
@@ -2418,45 +2326,13 @@ Claude: → Run this in your terminal:
     window.addEventListener('resize', syncFlipperHeight);
 
     // Patch setMode to trigger height sync when switching to spicy
-    var _origSetMode = setMode;
-    setMode = function(mode) {
-      _origSetMode(mode);
+    var _origSetMode2 = window.setMode;
+    window.setMode = function(mode) {
+      _origSetMode2(mode);
       if (mode === 'spicy') {
         setTimeout(syncFlipperHeight, 50);
       }
     };
-
-    // ─── Reddit comments — staggered choreography ───
-    var redditTriggered = false;
-
-    function triggerRedditComments() {
-      if (redditTriggered) return;
-      redditTriggered = true;
-      var comments = document.querySelectorAll('.reddit-comment');
-      comments.forEach(function(c) {
-        var delay = parseInt(c.getAttribute('data-delay') || '0');
-        setTimeout(function() {
-          c.classList.add('visible');
-        }, delay);
-      });
-    }
-
-    // Trigger when the reddit section scrolls into view
-    if ('IntersectionObserver' in window) {
-      var redditObs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            triggerRedditComments();
-            redditObs.disconnect();
-          }
-        });
-      }, { threshold: 0.2 });
-
-      window.addEventListener('load', function() {
-        var redditSection = document.getElementById('reddit-thread');
-        if (redditSection) redditObs.observe(redditSection);
-      });
-    }
 
     function flipCanvas(target) {
       var flipper = document.getElementById('canvas-flipper');
@@ -2505,14 +2381,29 @@ Claude: → Run this in your terminal:
     }
 
     // ── Confetti Easter Egg — particles from the hooman's head ──
+    // Deferred init: spicy-mode starts display:none so canvas has zero dimensions at load.
     (function() {
-      var canvas = document.getElementById('confetti-canvas');
-      var avatar = document.getElementById('hooman-avatar');
-      if (!canvas || !avatar) return;
-      var section = canvas.parentElement;
+      var confettiReady = false;
+      function bootConfetti() {
+        if (confettiReady) return;
+        var canvas = document.getElementById('confetti-canvas');
+        var avatar = document.getElementById('hooman-avatar');
+        if (!canvas || !avatar) return;
+        if (canvas.offsetWidth === 0) return;
+        confettiReady = true;
+        startConfetti(canvas, avatar);
+      }
+      // Retry on scroll and when spicy mode activates
+      window.addEventListener('scroll', bootConfetti);
+      var _setMode = window.setMode;
+      window.setMode = function(m) { _setMode(m); if (m === 'spicy') setTimeout(bootConfetti, 50); };
+    })();
+    function startConfetti(canvas, avatar) {
       var ctx = canvas.getContext('2d');
       var particles = [];
       var settled = [];
+      var running = false;
+      var frameCount = 0;
       var colors = ['#c23616', '#b8860b', '#e84118', '#44bd32', '#0097e6',
                     '#8c7ae6', '#e1b12c', '#ff6348', '#ffa502', '#e056fd', '#22a6b3'];
 
@@ -2547,10 +2438,11 @@ Claude: → Run this in your terminal:
       }
 
       function update() {
-        resize();
+        if (!running) return;
+        frameCount++;
         var floorY = canvas.height - 20;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        emit();
+        if (frameCount % 3 === 0) emit();
         for (var s2 = 0; s2 < settled.length; s2++) {
           var sp = settled[s2];
           ctx.save(); ctx.globalAlpha = sp.alpha; ctx.fillStyle = sp.color;
@@ -2575,12 +2467,23 @@ Claude: → Run this in your terminal:
           else { ctx.beginPath(); ctx.arc(0,0,p.size,0,Math.PI*2); ctx.fill(); }
           ctx.restore();
         }
-        if (settled.length > 3000) settled.splice(0, settled.length-3000);
+        if (settled.length > 500) settled.splice(0, settled.length-500);
         if (particles.length > 150) particles.splice(0, particles.length-150);
         requestAnimationFrame(update);
       }
-      requestAnimationFrame(update);
-    })();
+
+      // Only run when the confetti section is visible (observe the parent, not the canvas —
+      // canvas overflows with position:absolute so IntersectionObserver is unreliable on it)
+      var confettiSection = canvas.parentElement;
+      var observer = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) {
+          if (!running) { running = true; resize(); requestAnimationFrame(update); }
+        } else {
+          running = false;
+        }
+      }, { threshold: 0 });
+      observer.observe(confettiSection);
+    }
   </script>
 </body>
 </html>

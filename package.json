@@ -1,10 +1,14 @@
 {
   "name": "nelly-elephant-mcp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An elephant never forgets — and neither should your AI. Search and resume past Claude Code conversations via MCP.",
   "author": "SpicyRiceCakes",
   "license": "MIT",
   "type": "module",
+  "main": "./dist/index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "bin": {
     "nelly-elephant-mcp": "./dist/index.js"
   },
@@ -17,7 +21,7 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1"
+    "@modelcontextprotocol/sdk": "1.27.1"
   },
   "devDependencies": {
     "typescript": "^5.7.0",

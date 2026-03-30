@@ -1,5 +1,5 @@
-import { readdir, stat, readFile } from "fs/promises";
-import { join, basename } from "path";
+import { readdir, stat, lstat, readFile } from "fs/promises";
+import { join, basename, resolve } from "path";
 import { createReadStream } from "fs";
 import { createInterface } from "readline";
 import { getSessionsRootDir } from "./paths.js";
@@ -64,6 +64,11 @@ export async function getSessionContext(
   const rootDir = getSessionsRootDir();
   const filePath = await findSessionById(rootDir, sessionId);
   if (!filePath) return [];
+
+  const fileStats = await stat(filePath);
+  if (fileStats.size > 100 * 1024 * 1024) { // 100MB limit
+    return [];
+  }
 
   const snippets: string[] = [];
   const lines: string[] = [];
@@ -135,7 +140,7 @@ export async function listRecentSessions(
 
       sessions.push({
         sessionId,
-        projectDir: basename(projectDir),
+        projectDir: cleanProjectName(projectDir),
         date: stats.mtime.toISOString().split("T")[0],
         sizeKB: Math.round(stats.size / 1024),
         mtime: stats.mtime.getTime(),
@@ -148,6 +153,14 @@ export async function listRecentSessions(
 }
 
 // --- Internal helpers ---
+
+function cleanProjectName(dir: string): string {
+  const name = basename(dir);
+  // Claude Code dirs look like: -Users-username-path-to-project
+  // Strip the -Users-username- prefix to just show the project path
+  const match = name.match(/^-Users-[^-]+-(.+)$/);
+  return match ? match[1].replace(/-/g, '/') : name;
+}
 
 async function findProjectDirs(
   rootDir: string,
@@ -199,12 +212,19 @@ async function findSessionById(
   rootDir: string,
   sessionId: string
 ): Promise<string | null> {
+  // Canonical path check to prevent path traversal
+  const normalizedPath = resolve(rootDir, sessionId + ".jsonl");
+  if (!normalizedPath.startsWith(resolve(rootDir))) {
+    return null;
+  }
+
   const projectDirs = await findProjectDirs(rootDir);
 
   for (const dir of projectDirs) {
     const directPath = join(dir, `${sessionId}.jsonl`);
     try {
-      await stat(directPath);
+      const fileStats = await lstat(directPath);
+      if (fileStats.isSymbolicLink() || !fileStats.isFile()) continue;
       return directPath;
     } catch {
       // Not in this project dir, try subagents
@@ -280,7 +300,7 @@ async function searchSessionFile(
 
   return {
     sessionId,
-    projectDir: basename(projectDir),
+    projectDir: cleanProjectName(projectDir),
     date,
     snippets,
     matchCount,
@@ -301,6 +321,8 @@ function extractText(jsonlLine: string): string | null {
         .replace(/\\t/g, " ")
         .replace(/\\"/g, '"')
         .replace(/\\\\/g, "\\")
+        // Strip invalid Unicode surrogates that break JSON serialization
+        .replace(/[\uD800-\uDFFF]/g, "")
         .replace(/\s+/g, " ")
         .trim();
     }
