@@ -39,39 +39,21 @@ Claude Code stores **all** session transcripts — from every project — in one
 
 Nelly searches **all of them at once**. It doesn't matter which project you're in when you ask — she searches everything.
 
-### Recommended: Global config
+### Recommended: Global (available in every project)
 
-Because Nelly searches across all projects, install her **globally** so she's available in every session. Add to `~/.claude/mcp_settings.json`:
-
-```json
-{
-  "mcpServers": {
-    "nelly": {
-      "command": "nelly-elephant-mcp",
-      "args": []
-    }
-  }
-}
+```bash
+claude mcp add -s user nelly -- nelly-elephant-mcp
 ```
 
-### Alternative: Per-project config
+Restart Claude Code. Nelly is ready.
 
-If you only want Nelly in specific projects, add to your project's `.mcp.json` instead:
+### Alternative: Current project only
 
-```json
-{
-  "mcpServers": {
-    "nelly": {
-      "command": "nelly-elephant-mcp",
-      "args": []
-    }
-  }
-}
+```bash
+claude mcp add nelly -- nelly-elephant-mcp
 ```
 
 > Even in per-project mode, Nelly still searches all sessions. The only difference is whether she's available to call.
-
-Restart Claude Code after configuring. Nelly is ready.
 
 ## Trunk Modes
 
