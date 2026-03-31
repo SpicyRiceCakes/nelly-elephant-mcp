@@ -1447,18 +1447,13 @@ npm install -g .</code></pre>
   └── ...                           ← every project you've ever opened</code></pre>
     <p>Nelly searches <strong>all of them at once</strong>. It doesn't matter which project you're in — she searches everything.</p>
 
-    <p><strong>Recommended: Global config</strong> — so she's available in every session:</p>
-    <pre><code># ~/.claude/mcp_settings.json
-{
-  "mcpServers": {
-    "nelly": {
-      "command": "nelly-elephant-mcp",
-      "args": []
-    }
-  }
-}</code></pre>
+    <p><strong>Recommended: Global</strong> — so she's available in every project:</p>
+    <pre><code>claude mcp add -s user nelly -- nelly-elephant-mcp</code></pre>
 
-    <p>You can also add this to a per-project <code>.mcp.json</code> if you prefer. Even then, Nelly still searches all sessions — the only difference is whether she's available to call.</p>
+    <p>Or current project only:</p>
+    <pre><code>claude mcp add nelly -- nelly-elephant-mcp</code></pre>
+
+    <p>Even in per-project mode, Nelly still searches all sessions — the only difference is whether she's available to call.</p>
 
     <p>Restart Claude Code after configuring. Nelly is ready.</p>
 
@@ -1635,16 +1630,9 @@ Claude: → Run this in your terminal:
             <code style="white-space: pre-wrap;">npm install -g nelly-elephant-mcp</code>
             <span class="copy-hint">click to copy</span>
           </div>
-          <p style="font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; margin-bottom: 10px;">Then add to <code style="color: var(--text-dim);">~/.claude/mcp_settings.json</code>:</p>
-          <div class="copy-btn" onclick="navigator.clipboard.writeText(this.querySelector('code').textContent).then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
-            <code style="font-size: 12px; color: var(--text-dim); white-space: pre-wrap; line-height: 1.6;">{
-  "mcpServers": {
-    "nelly": {
-      "command": "nelly-elephant-mcp",
-      "args": []
-    }
-  }
-}</code>
+          <p style="font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; margin-bottom: 10px;">Then configure:</p>
+          <div class="copy-btn" onclick="navigator.clipboard.writeText('claude mcp add -s user nelly -- nelly-elephant-mcp').then(()=>{this.querySelector('.copy-hint').textContent='Copied!'})">
+            <code style="font-size: 12px; color: var(--text-dim); white-space: pre-wrap; line-height: 1.6;">claude mcp add -s user nelly -- nelly-elephant-mcp</code>
             <span class="copy-hint">click to copy</span>
           </div>
           <p style="font-size: 11px; color: rgba(255,255,255,0.2); text-align: center; margin-top: 10px;">Restart Claude Code after configuring.</p>
