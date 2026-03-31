@@ -1,0 +1,78 @@
+# Nelly the Elephant MCP
+
+> An elephant never forgets — and neither should your AI. Search and resume past Claude Code conversations via the Model Context Protocol (MCP).
+
+## What is Nelly?
+
+Nelly is an MCP server that searches your past Claude Code session transcripts (JSONL files stored in ~/.claude/projects/) and helps you find and resume old conversations. It searches across ALL projects at once, regardless of which project you're currently working in.
+
+## Install
+
+```bash
+npm install -g nelly-elephant-mcp
+```
+
+Add to ~/.claude/mcp_settings.json:
+
+```json
+{
+  "mcpServers": {
+    "nelly": {
+      "command": "nelly-elephant-mcp",
+      "args": []
+    }
+  }
+}
+```
+
+## Tools
+
+- **nelly_instructions**: Returns usage guide, platform info, sessions directory status, and diagnostics
+- **nelly_search**: Keyword search across all past sessions. Supports max_results (1-100), days_back (1-3650), and project filter. Returns date, project, match count, preview snippets, and resume command
+- **nelly_context**: Expanded context from a specific session — shows surrounding lines around matches. Takes session_id, query, and context_lines (1-50)
+- **nelly_recent**: Lists most recent sessions by modification time. Supports count (1-100) and project filter
+
+## Trunk Modes
+
+Nelly has two personality modes:
+
+- **Long Trunk**: A conversational, character-driven mode where Nelly is a friendly elephant who guides you through the search with personality
+- **Short Trunk**: Just results. Date, project, snippet, resume command. No narration.
+
+Say "Nelly long trunk" or "Nelly short trunk" to switch anytime.
+
+## Privacy and Security
+
+- Zero network calls. Zero telemetry. Zero data collection.
+- Reads only local JSONL files from ~/.claude/projects/
+- Uses stdio transport only (no HTTP server)
+- One runtime dependency: @modelcontextprotocol/sdk
+- Path traversal protection and symlink rejection built in
+- MIT licensed, full source available
+
+## Links
+
+- [GitHub Repository](https://github.com/SpicyRiceCakes/nelly-elephant-mcp)
+- [npm Package](https://www.npmjs.com/package/nelly-elephant-mcp)
+- [Documentation Site](https://spicyricecakes.com/kitchen/nelly-the-elephant)
+
+## For Optimization Freaks
+
+"Should I `/clear` or start a new session?"
+
+Here's the thing: Nelly searches the raw session files on disk. `/clear` resets Claude's memory but the session file keeps growing — every message before and after every `/clear` stays searchable. A new session creates a new file.
+
+So:
+- **`/clear` for same-topic continuation** — designing a feature, then building it, then debugging it? Same session. Nelly finds it as one result.
+- **New session for new topics** — switching from your app to your website? New session. Nelly can search each one independently.
+- **Multiple sessions on the same topic?** Totally fine. Nelly searches across all of them.
+
+You can even use Nelly to find an old session, `--continue` into it, `/clear`, and keep working — the new work appends to the same file, all searchable.
+
+But honestly? Don't overthink it. Use `/clear` when it feels right, start fresh when it feels right. Nelly handles the mess. That's literally the point.
+
+Don't worry. Nelly's here.
+
+## Author
+
+Built by [SpicyRiceCakes](https://spicyricecakes.com) — [GitHub](https://github.com/SpicyRiceCakes)

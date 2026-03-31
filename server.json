@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.SpicyRiceCakes/nelly-elephant-mcp",
+  "title": "Nelly the Elephant",
+  "description": "Search and resume past Claude Code conversations. An elephant never forgets.",
+  "repository": {
+    "url": "https://github.com/SpicyRiceCakes/nelly-elephant-mcp",
+    "source": "github"
+  },
+  "version": "1.0.4",
+  "websiteUrl": "https://spicyricecakes.github.io/nelly-elephant-mcp/",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "nelly-elephant-mcp",
+      "version": "1.0.4",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
